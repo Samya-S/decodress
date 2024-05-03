@@ -3,7 +3,7 @@ import cartReducer from "./features/cart";
 
 function loadState() {
     try {
-        const serializedState = localStorage.getItem('state');
+        const serializedState = (typeof window !== 'undefined' && window.localStorage) ? localStorage.getItem('state') : null;
         if (serializedState === null) {
             return undefined;
         }
@@ -16,7 +16,9 @@ function loadState() {
 function saveState(state) {
     try {
         const serializedState = JSON.stringify(state);
-        localStorage.setItem('state', serializedState);
+        if (typeof window !== 'undefined' && window.localStorage) {
+            localStorage.setItem('state', serializedState);
+        }
     } catch {
         // ignore write errors
     }
