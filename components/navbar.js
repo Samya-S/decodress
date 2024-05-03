@@ -49,6 +49,11 @@ const Navbar = () => {
     // eslint-disable-next-line
   }, [])
 
+  useEffect(() => {
+    setProducts(cart.products)
+    setSubtotal(cart.subtotal)
+  }, [cart])
+
   return (
     <div className='sticky top-0 z-50 bg-white flex flex-col md:flex-row justify-center md:justify-start items-center py-2 mb-2 shadow-md'>
       <div className="logo mx-5">

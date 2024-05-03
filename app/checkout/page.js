@@ -18,6 +18,11 @@ const CheckOut = () => {
     // eslint-disable-next-line
   }, [])
 
+  useEffect(() => {
+    setProducts(cart.products)
+    setSubtotal(cart.subtotal)
+  }, [cart])
+
   return (
     <div className="container m-auto">
       <h1 className="font-bold text-3xl my-8 text-center">Checkout</h1>
