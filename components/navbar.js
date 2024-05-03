@@ -6,6 +6,8 @@ import React, { useRef } from 'react'
 import { AiOutlineShoppingCart, AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 import { IoIosCloseCircle } from "react-icons/io";
 import { BsFillBagCheckFill } from "react-icons/bs";
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { clearCart, decreaseQuantity, increaseQuantity } from '@/redux/features/cart';
 
 const Navbar = () => {
   const ref = useRef()
@@ -19,6 +21,10 @@ const Navbar = () => {
       ref.current.classList.remove('translate-x-0')
     }
   }
+
+  const { products, subtotal } = useAppSelector(state => state.cart)
+  const dispatch = useAppDispatch()
+
   return (
     <div className='flex flex-col md:flex-row justify-center md:justify-start items-center py-2 mb-2 shadow-md'>
       <div className="logo mx-5">
@@ -42,21 +48,27 @@ const Navbar = () => {
         <h2 className='font-bold text-xl text-center mt-2 mb-5'>Shopping cart</h2>
         <span onClick={toggleCart} className='absolute top-5 right-2 cursor-pointer text-2xl text-pink-500'><IoIosCloseCircle /></span>
         <ol className='list-decimal font-semibold'>
-            <li>
+          {products.length === 0 && <p className='text-center mb-4'>Cart is empty</p>}
+          {products.map(product => (
+            <li key={product.itemCode}>
               <div className='item flex my-2 gap-2'>
-                <div className='w-3/4 font-semibold'>Tshirt - Wear the code Lorem ipsum dolor sit amet.</div>
+                <div className='w-3/4 font-semibold'>{product.name}</div>
                 <div className='w-1/4 font-semibold flex items-center justify-center gap-2'>
-                  <AiFillMinusCircle className='cursor-pointer text-pink-500' />
-                  <span className='text-sm'>1</span>
-                  <AiFillPlusCircle className='cursor-pointer text-pink-500' />
+                  <AiFillMinusCircle className='cursor-pointer text-pink-500' onClick={() => { dispatch(decreaseQuantity(product)) }} />
+                  <span className='text-sm'>{product.quantity}</span>
+                  <AiFillPlusCircle className='cursor-pointer text-pink-500' onClick={() => { dispatch(increaseQuantity(product)) }} />
                 </div>
               </div>
             </li>
+          ))}
         </ol>
-        <div className="flex gap-2 justify-evenly">
-          <button className='flex text-white bg-pink-500 border-0 py-2 px-3 focus:outline-none hover:bg-pink-600 rounded text-sm'><BsFillBagCheckFill className='m-1 text-xs' />Checkout</button>
-          <button className='flex text-white bg-pink-500 border-0 py-2 px-3 focus:outline-none hover:bg-pink-600 rounded text-sm'>Clear cart</button>
-        </div>
+        {products.length != 0 && <>
+          <p className='font-semibold text-center py-4'>Subtotal: ₹{subtotal}</p>
+          <div className="flex gap-2 justify-evenly">
+            <button className='flex text-white bg-pink-500 border-0 py-2 px-3 focus:outline-none hover:bg-pink-600 rounded text-sm'><BsFillBagCheckFill className='m-1 text-xs' />Checkout</button>
+            <button className='flex text-white bg-pink-500 border-0 py-2 px-3 focus:outline-none hover:bg-pink-600 rounded text-sm' onClick={() => { dispatch(clearCart()) }}>Clear cart</button>
+          </div>
+        </>}
       </div>
     </div>
   )

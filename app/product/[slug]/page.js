@@ -1,6 +1,8 @@
 // import styles from './blogpost.module.css'
 // import React from 'react'
 "use client"
+import { addToCart } from "@/redux/features/cart"
+import { useAppDispatch } from "@/redux/hooks"
 import { useState } from "react"
 
 const Slug = ({ params }) => {
@@ -15,6 +17,20 @@ const Slug = ({ params }) => {
     } else {
       setServiceable(false)
     }
+  }
+
+  const product = {
+    itemCode: params.slug,
+    name: 'Wear the Code (XL/Blue)',
+    price: 499,
+    size: 'XL',
+    color: 'Blue',
+  }
+
+  const dispatch = useAppDispatch()
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(product))
   }
 
   return (
@@ -92,7 +108,7 @@ const Slug = ({ params }) => {
               <div className="flex flex-wrap gap-2">
                 <span className="flex items-center title-font font-medium text-2xl text-gray-900">₹499.00</span>
                 <div className="flex gap-4 ml-auto flex-wrap">
-                  <button className="flex text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded">Add to cart</button>
+                  <button className="flex text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded" onClick={handleAddToCart}>Add to cart</button>
                   <button className="flex text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded">Buy now</button>
                 </div>
                 <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 sm:ml-4">
