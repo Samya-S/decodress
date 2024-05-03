@@ -3,10 +3,20 @@
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai"
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { decreaseQuantity, increaseQuantity } from "@/redux/features/cart";
+import { useEffect, useState } from "react";
 
 const CheckOut = () => {
-  const { products, subtotal } = useAppSelector(state => state.cart)
+  const [products, setProducts] = useState([])
+  const [subtotal, setSubtotal] = useState(0)
+
   const dispatch = useAppDispatch()
+  const cart = useAppSelector(state => state.cart)
+  
+  useEffect(() => {
+    setProducts(cart.products)
+    setSubtotal(cart.subtotal)
+  }, [cart])
+
   return (
     <div className="container m-auto">
       <h1 className="font-bold text-3xl my-8 text-center">Checkout</h1>

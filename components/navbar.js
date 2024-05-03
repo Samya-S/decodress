@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { AiOutlineShoppingCart, AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 import { IoIosCloseCircle } from "react-icons/io";
 import { BsFillBagCheckFill } from "react-icons/bs";
@@ -37,8 +37,16 @@ const Navbar = () => {
     };
   }, [ref]);
 
-  const { products, subtotal } = useAppSelector(state => state.cart)
+  const [products, setProducts] = useState([])
+  const [subtotal, setSubtotal] = useState(0)
+
   const dispatch = useAppDispatch()
+  const cart = useAppSelector(state => state.cart)
+
+  useEffect(() => {
+    setProducts(cart.products)
+    setSubtotal(cart.subtotal)
+  }, [cart])
 
   return (
     <div className='sticky top-0 z-50 bg-white flex flex-col md:flex-row justify-center md:justify-start items-center py-2 mb-2 shadow-md'>
