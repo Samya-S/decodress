@@ -10,6 +10,7 @@ import { createSlice } from "@reduxjs/toolkit"
 //     color: 'Blue'
 // }
 
+// const initialState = ((typeof window !== 'undefined') && localStorage.getItem('state')) ? JSON.parse(localStorage.getItem('state')) : {
 const initialState = localStorage.getItem('state') ? JSON.parse(localStorage.getItem('state')) : {
     products: [
         { itemCode: 1, name: 'Tshirt - Wear the code Lorem ipsum dolor sit amet.', price: 100, quantity: 1 },
