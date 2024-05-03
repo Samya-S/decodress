@@ -46,7 +46,8 @@ const Navbar = () => {
   useEffect(() => {
     setProducts(cart.products)
     setSubtotal(cart.subtotal)
-  }, [cart])
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <div className='sticky top-0 z-50 bg-white flex flex-col md:flex-row justify-center md:justify-start items-center py-2 mb-2 shadow-md'>

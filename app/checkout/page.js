@@ -11,11 +11,12 @@ const CheckOut = () => {
 
   const dispatch = useAppDispatch()
   const cart = useAppSelector(state => state.cart)
-  
+
   useEffect(() => {
     setProducts(cart.products)
     setSubtotal(cart.subtotal)
-  }, [cart])
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <div className="container m-auto">
