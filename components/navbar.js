@@ -78,8 +78,8 @@ const Navbar = () => {
         <h2 className='font-bold text-xl text-center mt-2 mb-5'>Shopping cart</h2>
         <span onClick={toggleCart} className='absolute top-5 right-2 cursor-pointer text-2xl text-pink-500'><IoIosCloseCircle /></span>
         <ol className='list-decimal font-semibold'>
-          {products.length === 0 && <p className='text-center mb-4'>Cart is empty</p>}
-          {products.map(product => (
+          {products && products.length === 0 && <p className='text-center mb-4'>Cart is empty</p>}
+          {products && products.map(product => (
             <li key={product.itemCode}>
               <div className='item flex my-2 gap-2'>
                 <div className='w-3/4 font-semibold'>{product.name}</div>
@@ -92,7 +92,7 @@ const Navbar = () => {
             </li>
           ))}
         </ol>
-        {products.length != 0 && <>
+        {products && products.length != 0 && <>
           <p className='font-bold text-center py-4'>Subtotal: ₹{subtotal}</p>
           <div className="flex gap-2 justify-evenly">
             <Link href={'/checkout'}><button className='flex text-white bg-pink-500 border-0 py-2 px-3 focus:outline-none hover:bg-pink-600 rounded text-sm' onClick={toggleCart}><BsFillBagCheckFill className='m-1 text-xs' />Checkout</button></Link>

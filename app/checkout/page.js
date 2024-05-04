@@ -63,8 +63,8 @@ const CheckOut = () => {
       <h2 className="font-semibold text-xl mx-4 pt-4">2. Review cart items</h2>
       <div className="cart bg-pink-100 m-4 py-4 pr-5 pl-8">
         <ol className='font-semibold' style={{ listStyleType: 'upper-roman' }}>
-          {products.length === 0 && <p className='text-center mb-4'>Cart is empty</p>}
-          {products.map(product => (
+          {products && products.length === 0 && <p className='text-center mb-4'>Cart is empty</p>}
+          {products && products.map(product => (
             <li key={product.itemCode}>
               <div className='item flex my-2 gap-2'>
                 <div className='w-3/4 font-semibold'>{product.name}</div>
@@ -77,7 +77,7 @@ const CheckOut = () => {
             </li>
           ))}
         </ol>
-        {products.length != 0 && <>
+        {products && products.length != 0 && <>
           <p className='font-bold text-center py-4'>Subtotal: ₹{subtotal}</p>
           <div className="flex gap-2 justify-evenly">
             <button className='flex text-white bg-pink-500 border-0 py-2 px-3 focus:outline-none hover:bg-pink-600 rounded text-sm' onClick={() => { dispatch(clearCart()) }}>Clear cart</button>
