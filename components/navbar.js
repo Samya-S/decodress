@@ -62,10 +62,10 @@ const Navbar = () => {
 
       <div className="nav">
         <ul className='flex items-center space-x-4 font-bold md:text-md'>
-          <Link href={'/tshirts'}><li>Tshirts</li></Link>
-          <Link href={'/hoodies'}><li>Hoodies</li></Link>
-          <Link href={'/stickers'}><li>Stickers</li></Link>
-          <Link href={'/mugs'}><li>Mugs</li></Link>
+          <Link href={'/tshirts'}><li className="text-gray-800 hover:text-pink-600">Tshirts</li></Link>
+          <Link href={'/hoodies'}><li className="text-gray-800 hover:text-pink-600">Hoodies</li></Link>
+          <Link href={'/stickers'}><li className="text-gray-800 hover:text-pink-600">Stickers</li></Link>
+          <Link href={'/mugs'}><li className="text-gray-800 hover:text-pink-600">Mugs</li></Link>
         </ul>
       </div>
 
@@ -74,7 +74,7 @@ const Navbar = () => {
         <AiOutlineShoppingCart onClick={toggleCart} className='text-xl md:text-3xl cursor-pointer' />
       </div>
 
-      <div ref={ref} className="sideCart w-72 h-full z-30 fixed top-0 right-0 bg-pink-100 py-10 pr-5 pl-8 transform transition-transform translate-x-full">
+      <div ref={ref} className="sideCart overflow-y-scroll w-72 h-full z-30 fixed top-0 right-0 bg-pink-100 py-10 pr-5 pl-8 transform transition-transform translate-x-full">
         <h2 className='font-bold text-xl text-center mt-2 mb-5'>Shopping cart</h2>
         <span onClick={toggleCart} className='absolute top-5 right-2 cursor-pointer text-2xl text-pink-500'><IoIosCloseCircle /></span>
         <ol className='list-decimal font-semibold'>
@@ -82,7 +82,7 @@ const Navbar = () => {
           {(typeof products != "undefined") && products.map(product => (
             <li key={product.itemCode}>
               <div className='item flex my-2 gap-2'>
-                <div className='w-3/4 font-semibold'>{product.name}</div>
+                <div className='w-3/4 font-semibold'>{product.name} ({product.size}/{product.color})</div>
                 <div className='w-1/4 font-semibold flex items-center justify-center gap-2'>
                   <AiFillMinusCircle className='cursor-pointer text-pink-500' onClick={() => { dispatch(decreaseQuantity(product)) }} />
                   <span className='text-sm'>{product.quantity}</span>

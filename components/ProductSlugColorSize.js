@@ -24,7 +24,7 @@ const ProductSlugColorSize = (props) => {
         <span className="mr-3">Color</span>
         {Object.keys(variants).map((itemColor) => (
           (Object.keys(variants[itemColor]).includes(size)) // check if the color contains the selected size in variants
-          && <button key={itemColor} onClick={() => { /* routeToVariant */ setColor(itemColor) }} className={`border-2 border-gray-300 bg-${itemColor.toLowerCase()}-500 ml-1 rounded-full w-6 h-6 focus:outline-none`}></button>
+          && <button key={itemColor} onClick={() => { /* routeToVariant */ setColor(itemColor) }} className={`border-2 ${itemColor === color ? 'border-black' : 'border-gray-300'} bg-${itemColor.toLowerCase()}-500 ml-1 rounded-full w-6 h-6 focus:outline-none`}></button>
         ))}
       </div>
       <div className="flex ml-6 items-center">

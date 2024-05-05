@@ -1,6 +1,7 @@
 import PincodeAvailability from "@/components/ProductSlugPincodeAvailability"
 import AddToCart from "@/components/ProductSlugAddToCart";
 import ProductSlugColorSize from "@/components/ProductSlugColorSize";
+import BuyNow from "@/components/ProductSlugBuyNow";
 
 async function getProduct(slug) {
   const domain = process.env.HOSTING_DOMAIN
@@ -33,6 +34,8 @@ const Slug = async ({ params }) => {
     price: product[0].price,
     size: product[0].size,
     color: product[0].color,
+    description: product[0].description,
+    imgUrl: product[0].img
   }
 
   return (
@@ -42,10 +45,10 @@ const Slug = async ({ params }) => {
         <div className="container p-5 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
             {/* eslint-disable-next-line */}
-            <img alt="ecommerce" className="lg:w-1/2 w-full lg:h-auto h-auto px-14 object-cover object-center rounded" src="https://friskers.in/cdn/shop/products/K38-01_1_1500x.jpg?v=1689422690" />
+            <img alt="ecommerce" className="lg:w-1/2 w-full lg:h-auto h-auto px-14 object-cover object-center rounded" src={productItem.imgUrl} />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">CODESWEAR</h2>
-              <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{productItem.name}</h1>
+              <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{productItem.name} ({productItem.size}/{productItem.color})</h1>
               <div className="flex mb-4">
                 <span className="flex items-center">
                   <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-pink-500" viewBox="0 0 24 24">
@@ -83,13 +86,13 @@ const Slug = async ({ params }) => {
                   </a>
                 </span>
               </div>
-              <p className="leading-relaxed">Fam locavore kickstarter distillery. Mixtape chillwave tumeric sriracha taximy chia microdosing tilde DIY. XOXO fam indxgo juiceramps cornhole raw denim forage brooklyn. Everyday carry +1 seitan poutine tumeric. Gastropub blue bottle austin listicle pour-over, neutra jean shorts keytar banjo tattooed umami cardigan.</p>
+              <p className="leading-relaxed">{productItem.description}</p>
               <ProductSlugColorSize variants={variants} productItem={productItem} />
               <div className="flex flex-wrap gap-2">
                 <span className="flex items-center title-font font-medium text-2xl text-gray-900">₹{productItem.price}.00</span>
                 <div className="flex gap-4 ml-auto flex-wrap">
                   <AddToCart product={productItem} />
-                  <button className="flex text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded">Buy now</button>
+                  <BuyNow product={productItem} />
                 </div>
                 <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 sm:ml-4">
                   <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
