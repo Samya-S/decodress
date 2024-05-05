@@ -1,9 +1,8 @@
-// import React from 'react'
-
 import Link from "next/link"
 
 async function getTshirts() {
-  const res = await fetch('http://localhost:3000/api/getProducts', { cache: "no-store" })
+  const domain = process.env.HOSTING_DOMAIN
+  const res = await fetch(`${domain}/api/getProducts`, { cache: "no-store" })
   const data = await res.json()
 
   const allTshirts = data.body.data.filter(product => product.category === "tshirt");

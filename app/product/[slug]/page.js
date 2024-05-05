@@ -3,7 +3,8 @@ import AddToCart from "@/components/ProductSlugAddToCart";
 import ProductSlugColorSize from "@/components/ProductSlugColorSize";
 
 async function getProduct(slug) {
-  const res = await fetch('http://localhost:3000/api/getProducts', { cache: "no-store" })
+  const domain = process.env.HOSTING_DOMAIN
+  const res = await fetch(`${domain}/api/getProducts`, { cache: "no-store" })
   const data = await res.json()
 
   const product = data.body.data.filter(product => product.slug === slug)
@@ -25,11 +26,6 @@ async function getProduct(slug) {
 
 const Slug = async ({ params }) => {
   const { product, variants } = await getProduct(params.slug)
-  // console.log(variants)
-  // console.log(variants[Object.keys(variants)[0]])
-  // get obj name of first key
-  // console.log(Object.keys(variants)[0])
-  // console.log(Object.keys(variants[Object.keys(variants)[0]]))
 
   const productItem = {
     itemCode: params.slug,
