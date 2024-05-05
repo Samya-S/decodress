@@ -8,8 +8,8 @@ async function getProduct(slug) {
   const res = await fetch(`${domain}/api/getProducts`, { cache: "no-store" })
   const data = await res.json()
 
-  const product = data.body.data.filter(product => product.slug === slug)
-  const variants = data.body.data.filter(prod => prod.title === product[0].title)
+  const product = await data.body.data.filter(product => product.slug === slug)
+  const variants = await data.body.data.filter(prod => prod.title === product[0].title)
 
   let colorSizeSlug = {}
   for (let item of variants) {

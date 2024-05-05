@@ -5,7 +5,7 @@ async function getTshirts() {
   const res = await fetch(`${domain}/api/getProducts`, { cache: "no-store" })
   const data = await res.json()
 
-  const allTshirts = data.body.data.filter(product => product.category === "tshirt");
+  const allTshirts = await data.body.data.filter(product => product.category === "tshirt");
 
   let tshirts = {}
   for (let item of allTshirts) {
