@@ -26,6 +26,7 @@ async function getProduct(slug) {
 }
 
 const Slug = async ({ params }) => {
+  const domain = process.env.HOSTING_DOMAIN
   const { product, variants } = await getProduct(params.slug)
 
   const productItem = {
@@ -100,7 +101,7 @@ const Slug = async ({ params }) => {
                   </svg>
                 </button>
               </div>
-              <PincodeAvailability />
+              <PincodeAvailability domain={domain} />
             </div>
           </div>
         </div>

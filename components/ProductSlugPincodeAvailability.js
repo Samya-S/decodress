@@ -3,9 +3,10 @@ import React, { useState } from 'react'
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-const PincodeAvailability = () => {
+const PincodeAvailability = (props) => {
     const [pincode, setPincode] = useState('')
     const [serviceable, setServiceable] = useState(null)
+    const { domain } = props
 
     const checkLocationServiceability = async (e) => {
         e.preventDefault()
@@ -32,8 +33,7 @@ const PincodeAvailability = () => {
                 theme: "light",
             });
         } else {
-            const domain = process.env.HOSTING_DOMAIN
-            let pincodes = await fetch(`${domain}/api/pincode`)
+            let pincodes = await fetch(`${domain}/api/pincode`, { cache: "no-store" })
             pincodes = await pincodes.json()
             if (pincodes.includes(parseInt(pincode))) {
                 setServiceable(true)
