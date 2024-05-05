@@ -9,9 +9,19 @@ export async function POST(request) {
         let products = [];
         const reqBody = await request.json();
         for (let i = 0; i < reqBody.length; i++) {
+            const slug = reqBody[i].title.toLowerCase().replace(/ /g, "-") + "-" + reqBody[i].color.toLowerCase().replace(/ /g, "-") + "-" + reqBody[i].size.toLowerCase().replace(/ /g, "-");
+            
+            // if slug already exists, just increase the availableQty by the new availableQty and break the loop
+            const existingProduct = await Product.findOneAndUpdate({ slug: slug }, { $inc: { availableQty: reqBody[i].availableQty } });
+            if (existingProduct) {
+                products.push(existingProduct);
+                break;
+            }
+
             const product = new Product({
                 title: reqBody[i].title,
-                slug: reqBody[i].slug,
+                // generate slug from title, color and size by making them lowercase and replacing spaces with hyphens
+                slug: slug,
                 description: reqBody[i].description,
                 img: reqBody[i].img,
                 category: reqBody[i].category,
