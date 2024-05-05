@@ -11,22 +11,22 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { clearCart, decreaseQuantity, increaseQuantity } from '@/redux/features/cart';
 
 const Navbar = () => {
-  const ref = useRef()
+  const sideCartRef = useRef()
   const toggleCart = () => {
-    if (ref.current.classList.contains('translate-x-full')) {
-      ref.current.classList.remove('translate-x-full')
-      ref.current.classList.add('translate-x-0')
+    if (sideCartRef.current.classList.contains('translate-x-full')) {
+      sideCartRef.current.classList.remove('translate-x-full')
+      sideCartRef.current.classList.add('translate-x-0')
     }
     else {
-      ref.current.classList.add('translate-x-full')
-      ref.current.classList.remove('translate-x-0')
+      sideCartRef.current.classList.add('translate-x-full')
+      sideCartRef.current.classList.remove('translate-x-0')
     }
   }
   useEffect(() => {   // Close cart when clicked outside
     function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target)) {
-        ref.current.classList.add('translate-x-full')
-        ref.current.classList.remove('translate-x-0')
+      if (sideCartRef.current && !sideCartRef.current.contains(event.target)) {
+        sideCartRef.current.classList.add('translate-x-full')
+        sideCartRef.current.classList.remove('translate-x-0')
       }
     }
     // Bind the event listener
@@ -35,7 +35,7 @@ const Navbar = () => {
       // Unbind the event listener on clean up
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [ref]);
+  }, [sideCartRef]);
 
   const [products, setProducts] = useState([])
   const [subtotal, setSubtotal] = useState(0)
@@ -74,7 +74,7 @@ const Navbar = () => {
         <AiOutlineShoppingCart onClick={toggleCart} className='text-xl md:text-3xl cursor-pointer' />
       </div>
 
-      <div ref={ref} className="sideCart overflow-y-scroll w-72 h-full z-30 fixed top-0 right-0 bg-pink-100 py-10 pr-5 pl-8 transform transition-transform translate-x-full">
+      <div ref={sideCartRef} className="sideCart overflow-y-scroll w-72 h-full z-30 fixed top-0 right-0 bg-pink-100 py-10 pr-5 pl-8 transform transition-transform translate-x-full">
         <h2 className='font-bold text-xl text-center mt-2 mb-5'>Shopping cart</h2>
         <span onClick={toggleCart} className='absolute top-5 right-2 cursor-pointer text-2xl text-pink-500'><IoIosCloseCircle /></span>
         <ol className='list-decimal font-semibold'>
