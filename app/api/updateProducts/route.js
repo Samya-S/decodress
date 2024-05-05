@@ -9,7 +9,7 @@ export async function PUT(request) {
         const reqBody = await request.json();
         let products = [];
         for (let i = 0; i < reqBody.length; i++) {
-            const product = await Product.findByIdAndUpdate(reqBody[i]._id, reqBody[i]);
+            const product = await Product.findByIdAndUpdate(reqBody[i]._id, reqBody[i], { new: true });
             products.push(product);
         }
         return Response.json({

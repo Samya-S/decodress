@@ -77,6 +77,9 @@ const Tshirts = async () => {
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
           <div className="flex flex-wrap justify-evenly -m-4">
+            {Object.keys(tshirts).length === 0 &&
+              <div className="text-center">Sorry all the t-shirts are out of stock. New stock comming soon. Stay tuned!</div>
+            }
             {Object.keys(tshirts).map((item) => (
               <div key={tshirts[item]._id} className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-lg m-5">
                 <Link href={'product/' + tshirts[item].slug}>
@@ -110,4 +113,4 @@ const Tshirts = async () => {
   )
 }
 
-export default Tshirts
+export default Tshirts;

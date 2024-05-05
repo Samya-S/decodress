@@ -9,7 +9,7 @@ async function getProduct(slug) {
   const data = await res.json()
 
   const product = await data.body.data.filter(product => product.slug === slug)
-  const variants = await data.body.data.filter(prod => prod.title === product[0].title)
+  const variants = await data.body.data.filter(prod => prod.title === product[0].title && prod.category === product[0].category)
 
   let colorSizeSlug = {}
   for (let item of variants) {
@@ -41,7 +41,6 @@ const Slug = async ({ params }) => {
 
   return (
     <div>
-      Product/[slug]: {params.slug}
       <section className="text-gray-600 body-font overflow-hidden">
         <div className="container p-5 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
