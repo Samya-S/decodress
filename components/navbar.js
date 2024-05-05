@@ -12,16 +12,7 @@ import { clearCart, decreaseQuantity, increaseQuantity } from '@/redux/features/
 import { ToastContainer, toast } from 'react-toastify';
 
 const Navbar = () => {
-  const [user, setUser] = useState({ value: null })
-  const [key, setKey] = useState(0)
-
   const token = (typeof window !== 'undefined') ? localStorage.getItem('token') : null
-
-  // if(token) {
-  //   setUser({value: token})
-  //   setKey(Math.random()) // To re-render the component
-  // }
-
 
   /* account dropdown */
   const [showAccountDropdown, setShowAccountDropdown] = useState(false)
