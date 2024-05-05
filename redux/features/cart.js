@@ -11,15 +11,7 @@ import { createSlice } from "@reduxjs/toolkit"
 // }
 
 const initialState = ((typeof window !== 'undefined') && localStorage.getItem('state')) ? JSON.parse(localStorage.getItem('state')) : {
-    cart: {
-        products: [
-            { itemCode: 1, name: 'Tshirt - Wear the code Lorem ipsum dolor sit amet.', price: 100, quantity: 1 },
-            { itemCode: 2, name: 'Product 2', price: 200, quantity: 1 },
-            { itemCode: 3, name: 'Product 3', price: 300, quantity: 1 },
-            { itemCode: 4, name: 'Product 4', price: 400, quantity: 1 },
-        ],
-        subtotal: 1000
-    }
+    cart:{products:[],subtotal:0}
 }
 
 const cartSlice = createSlice({

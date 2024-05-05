@@ -6,11 +6,11 @@ function loadState() {
         const serializedState = (typeof window !== 'undefined') ? localStorage.getItem('state') : null;
         // const serializedState = localStorage.getItem('state');
         if (serializedState === null) {
-            return undefined;
+            return {cart:{products:[],subtotal:0}};
         }
         return JSON.parse(serializedState);
     } catch (err) {
-        return undefined;
+        return {cart:{products:[],subtotal:0}};
     }
 }
 
@@ -22,6 +22,7 @@ function saveState(state) {
         }
     } catch {
         // ignore write errors
+        console.error('Failed to save state:', error);
     }
 }
 
