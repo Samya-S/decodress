@@ -1,11 +1,11 @@
 import Product from "@/models/Product";
 import connectDB from "@/middleware/connectToDB";
 
-// Calls the connect function to establish a connection to the database.
-connectDB();
-
 export async function POST(request) {
     try {
+        // Calls the connect function to establish a connection to the database.
+        await connectDB();
+        
         let products = [];
         const reqBody = await request.json();
         for (let i = 0; i < reqBody.length; i++) {
