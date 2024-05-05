@@ -9,8 +9,56 @@ import { BsFillBagCheckFill } from "react-icons/bs";
 import { MdAccountCircle } from "react-icons/md";
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { clearCart, decreaseQuantity, increaseQuantity } from '@/redux/features/cart';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Navbar = () => {
+  const [user, setUser] = useState({ value: null })
+  const [key, setKey] = useState(0)
+
+  const token = (typeof window !== 'undefined') ? localStorage.getItem('token') : null
+
+  // if(token) {
+  //   setUser({value: token})
+  //   setKey(Math.random()) // To re-render the component
+  // }
+
+
+  /* account dropdown */
+  const [showAccountDropdown, setShowAccountDropdown] = useState(false)
+  const accountDropdownRef = useRef()
+
+  useEffect(() => {   // Close account dropdown when clicked outside
+    function handleClickOutside(event) {
+      if (accountDropdownRef.current && !accountDropdownRef.current.contains(event.target)) {
+        setShowAccountDropdown(false)
+      }
+    }
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [accountDropdownRef])
+
+  const logOut = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('token')
+    }
+    toast.success('Logged out successfully', {
+      position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      // onClose: () => { window.location.reload() }
+    });
+  }
+
+  /* side cart */
   const sideCartRef = useRef()
   const toggleCart = () => {
     if (sideCartRef.current.classList.contains('translate-x-full')) {
@@ -56,7 +104,7 @@ const Navbar = () => {
 
   return (
     <div className='sticky top-0 z-50 bg-white flex flex-col md:flex-row justify-center md:justify-start items-center py-2 mb-2 shadow-md'>
-      <div className="logo mx-5">
+      <div className="logo mx-5 self-start">
         <Link href={'/'}><Image src="/logo.png" alt="" width={200} height={49} /></Link>
       </div>
 
@@ -69,8 +117,16 @@ const Navbar = () => {
         </ul>
       </div>
 
-      <div className="icons flex gap-1 absolute right-0 top-4 mx-5">
-        <Link href={'/login'}><MdAccountCircle className='text-xl md:text-3xl cursor-pointer' /></Link>
+      <div className="icons flex gap-1 absolute right-0 top-4 mx-5 items-center">
+        <div>
+          {token && <MdAccountCircle onMouseOver={() => { setShowAccountDropdown(true) }} className='text-xl md:text-3xl cursor-pointer' />}
+          {showAccountDropdown && <div onMouseLeave={() => { setShowAccountDropdown(false) }} ref={accountDropdownRef} className='absolute top-12 right-0 w-40 bg-pink-200 py-2 px-4 rounded-md shadow-md font-semibold'>
+            <Link href={'/account'}><p className='text-gray-800 hover:text-pink-600 py-2 px-4'>My Account</p></Link>
+            <Link href={'/orders'}><p className='text-gray-800 hover:text-pink-600 py-2 px-4'>Orders</p></Link>
+            <p onClick={logOut} className='text-gray-800 hover:text-pink-600 py-2 px-4 cursor-pointer'>Logout</p>
+          </div>}
+        </div>
+        {!token && <Link href={'/login'}><button className='bg-pink-600 px-2 py-1 rounded-md text-sm text-white mx-2'>Login</button></Link>}
         <AiOutlineShoppingCart onClick={toggleCart} className='text-xl md:text-3xl cursor-pointer' />
       </div>
 
@@ -100,6 +156,18 @@ const Navbar = () => {
           </div>
         </>}
       </div>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   )
 }

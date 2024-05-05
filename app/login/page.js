@@ -1,11 +1,13 @@
 "use client"
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 
 const Login = () => {
-  const router = useRouter()
+  // const router = useRouter()
+  const domain = process.env.NEXT_PUBLIC_DOMAIN
+
   const [userCredentials, setUserCredentials] = useState({ email: '', password: '' })
 
   const handleChange = (e) => {
@@ -26,8 +28,10 @@ const Login = () => {
     const data = await response.json()
 
     if (data.body.success) {
-      localStorage.setItem('token', data.body.token);
-      
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('token', data.body.token);
+      }
+
       // history.pushState({toastMsg: 'You have been logged in successfully'}, 'http://localhost:3000', '/');
       // router.push('/');
       toast.success('You have been logged in successfully', {
@@ -39,7 +43,8 @@ const Login = () => {
         draggable: true,
         progress: undefined,
         theme: "light",
-        onClose: () => router.push('/')
+        // onClose: () => router.push('/')
+        onClose: () => window.location = domain
       });
     } else {
       toast.error(data.body.error, {
