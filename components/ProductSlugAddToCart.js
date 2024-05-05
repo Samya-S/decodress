@@ -3,7 +3,6 @@ import React from "react"
 import { addToCart } from "@/redux/features/cart"
 import { useAppDispatch } from "@/redux/hooks"
 import { ToastContainer, toast } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
 
 const AddToCart = (props) => {
   const dispatch = useAppDispatch()

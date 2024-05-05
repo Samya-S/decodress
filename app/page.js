@@ -1,7 +1,24 @@
+// "use client"
+// import { ToastContainer, toast } from 'react-toastify'
+
 export default function Home() {
+  // if (typeof window !== 'undefined' && history.state.toastMsg) {
+  //   toast.success(history.state.toastMsg, {
+  //     position: "bottom-center",
+  //     autoClose: 2000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //     theme: "light",
+  //   });
+  // }
+
   return (
     <main>
       <div>
+        {/* eslint-disable-next-line */}
         <img src="/home.jpg" alt="" width="100%" />
       </div>
       <section className="text-gray-600 body-font">
@@ -83,7 +100,19 @@ export default function Home() {
           </div>
         </div>
       </section>
-      
+
+      {/* <ToastContainer
+        position="bottom-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      /> */}
     </main>
   )
 }
