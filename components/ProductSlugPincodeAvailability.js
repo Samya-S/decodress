@@ -32,7 +32,8 @@ const PincodeAvailability = () => {
                 theme: "light",
             });
         } else {
-            let pincodes = await fetch('http://localhost:3000/api/pincode')
+            const domain = process.env.HOSTING_DOMAIN
+            let pincodes = await fetch(`${domain}/api/pincode`)
             pincodes = await pincodes.json()
             if (pincodes.includes(parseInt(pincode))) {
                 setServiceable(true)
