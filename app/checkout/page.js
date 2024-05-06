@@ -56,7 +56,16 @@ const CheckOut = () => {
     console.log(orderResp);
 
     if (!orderResp.success) {
-      alert("Server error. Are you online?");
+      toast.error('Server error. Are you online?', {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       return;
     }
 
@@ -123,13 +132,52 @@ const CheckOut = () => {
         name: "XXXXX XXXX",
         email: "xxxxxxx@xxx.xx",
         contact: "9999999999",
+        method: 'card'
       },
       notes: {
         address: "Xxxx xxxx xxxxx xxx xxxx",
       },
       theme: {
+        // hide_topbar: true,
         color: "#FF007F",
       },
+      config: {
+        display: {
+          // blocks: {
+          //   banks: {
+          //     name: 'Pay via UPI',
+          //     instruments: [
+          //       {
+          //         method: 'upi',
+          //       }
+          //     ]
+          //   },
+          // },
+          // sequence: ['block.banks'],
+          preferences: {
+            show_default_blocks: true,
+          },
+          hide: [
+            {
+              // method: 'paylater'
+            }
+          ],
+        },
+      },
+      modal: {
+        ondismiss: function () {
+          toast.error('Payment has been cancelled!', {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      }
     };
 
     const paymentObject = new Razorpay(options);
