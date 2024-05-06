@@ -1,9 +1,18 @@
 "use client"
 import Link from 'next/link'
-import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 
 const SignUp = () => {
+  const router = useRouter()
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      router.push('/account')
+    }
+    // eslint-disable-next-line
+  }, [])
+
   const [userCredentials, setUserCredentials] = useState({ name: '', email: '', password: '' })
 
   const handleChange = (e) => {

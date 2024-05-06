@@ -10,9 +10,11 @@ import { MdAccountCircle } from "react-icons/md";
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { clearCart, decreaseQuantity, increaseQuantity } from '@/redux/features/cart';
 import { ToastContainer, toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 // import TopLoadingBar from './TopLoadingBar';
 
 const Navbar = () => {
+  const router = useRouter()
   const token = (typeof window !== 'undefined') ? localStorage.getItem('token') : null
 
   /* account dropdown */
@@ -36,18 +38,19 @@ const Navbar = () => {
   const logOut = () => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('token')
+      toast.success('Logged out successfully', {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        // onClose: () => { window.location.reload() }
+        onClose: () => { router.push('/') }
+      });
     }
-    toast.success('Logged out successfully', {
-      position: "bottom-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      // onClose: () => { window.location.reload() }
-    });
   }
 
   /* side cart */
@@ -132,7 +135,7 @@ const Navbar = () => {
           {(typeof products != "undefined") && products.map(product => (
             <li key={product.itemCode}>
               <div className='item flex my-2 gap-2'>
-                <div className='w-3/4 font-semibold'>{product.name} ({product.size}/{product.color})</div>
+                <div className='w-3/4 font-semibold'>{product.name} - {product.category} ({product.size}/{product.color})</div>
                 <div className='w-1/4 font-semibold flex items-center justify-center gap-2'>
                   <AiFillMinusCircle className='cursor-pointer text-pink-500' onClick={() => { dispatch(decreaseQuantity(product)) }} />
                   <span className='text-sm'>{product.quantity}</span>

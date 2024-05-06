@@ -4,8 +4,19 @@ import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai"
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { decreaseQuantity, increaseQuantity } from "@/redux/features/cart";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Script from "next/script";
+import { ToastContainer, toast } from "react-toastify";
 
 const CheckOut = () => {
+  const router = useRouter()
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      router.push('/login')
+    }
+    // eslint-disable-next-line
+  }, [])
+
   const [products, setProducts] = useState([])
   const [subtotal, setSubtotal] = useState(0)
 
@@ -23,8 +34,125 @@ const CheckOut = () => {
     setSubtotal(cart.subtotal)
   }, [cart])
 
+  const initiatePayment = async () => {
+    const hostingDomain = process.env.NEXT_PUBLIC_DOMAIN
+    const amountVal = (subtotal * 100)
+
+    // Creating a new order
+    const resp = await fetch(`${hostingDomain}/api/createPaymentOrder`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "amount": amountVal,
+        "currency": "INR"
+      }),
+    })
+
+    const orderResp = await resp.json()
+
+    console.log('on createOrder:');
+    console.log(orderResp);
+
+    if (!orderResp.success) {
+      alert("Server error. Are you online?");
+      return;
+    }
+
+    // Getting the order details back
+    const { amount, id: order_id, currency } = orderResp.data;
+
+    const options = {
+      key: process.env.RZPAY_KEY_ID,
+      amount: amount.toString(),
+      currency: currency,
+      name: "CodesWear",
+      description: "Payment Transaction",
+      image: `${hostingDomain}/codeswearcircle.png`,
+      order_id: order_id,
+      handler: async function (response) {
+        const data = {
+          payment_id: response.razorpay_payment_id,
+          order_id: response.razorpay_order_id,
+          razorpay_signature: response.razorpay_signature,
+        };
+
+        console.log('on payment:');
+        console.log(data);
+
+        const resp = await fetch(`${hostingDomain}/api/verifyPayment`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // 'x-razorpay-signature': response.razorpay_signature,
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await resp.json();
+        console.log('on verifyOrder:');
+        console.log(result);
+
+        if (result.success) {
+          toast.success('Payment successful!', {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          })
+        }
+        else {
+          toast.error('Payment failed!', {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      },
+      prefill: {
+        name: "XXXXX XXXX",
+        email: "xxxxxxx@xxx.xx",
+        contact: "9999999999",
+      },
+      notes: {
+        address: "Xxxx xxxx xxxxx xxx xxxx",
+      },
+      theme: {
+        color: "#FF007F",
+      },
+    };
+
+    const paymentObject = new Razorpay(options);
+    paymentObject.open();
+
+    paymentObject.on("payment.failed", function (response) {
+      console.log(response.error);
+      toast.error('Payment failed!', {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    });
+  }
+
   return (
     <div className="container m-auto">
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       <h1 className="font-bold text-3xl my-8 text-center">Checkout</h1>
       <h2 className="font-semibold text-xl mx-4">1. Delivery details</h2>
       <div className="m-4">
@@ -84,8 +212,19 @@ const CheckOut = () => {
           </div>
         </>}
       </div>
-      <button className='m-4 flex text-white bg-pink-500 border-0 py-2 px-3 focus:outline-none hover:bg-pink-600 rounded text-sm'>Pay ₹{subtotal}</button>
-
+      <button onClick={initiatePayment} className='m-4 flex text-white bg-pink-500 border-0 py-2 px-3 focus:outline-none hover:bg-pink-600 rounded text-sm'>Pay ₹{subtotal}</button>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   )
 }

@@ -1,11 +1,18 @@
 "use client"
 import Link from 'next/link'
-// import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 
 const Login = () => {
-  // const router = useRouter()
+  const router = useRouter()
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      router.push('/account')
+    }
+    // eslint-disable-next-line
+  }, [])
+
   const domain = process.env.NEXT_PUBLIC_DOMAIN
 
   const [userCredentials, setUserCredentials] = useState({ email: '', password: '' })

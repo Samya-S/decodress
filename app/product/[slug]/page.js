@@ -25,7 +25,7 @@ async function getProduct(slug) {
   return { product, variants: colorSizeSlug }
 }
 
-const Slug = async ({ params }) => {
+const ProductSlug = async ({ params }) => {
   const domain = process.env.HOSTING_DOMAIN
   const { product, variants } = await getProduct(params.slug)
 
@@ -36,7 +36,8 @@ const Slug = async ({ params }) => {
     size: product[0].size,
     color: product[0].color,
     description: product[0].description,
-    imgUrl: product[0].img
+    imgUrl: product[0].img,    
+    category: product[0].category.charAt(0).toUpperCase() + product[0].category.slice(1) // Capitalize the first letter
   }
 
   return (
@@ -48,7 +49,7 @@ const Slug = async ({ params }) => {
             <img alt="ecommerce" className="lg:w-1/2 w-full lg:h-auto h-auto px-14 object-cover object-center rounded" src={productItem.imgUrl} />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">CODESWEAR</h2>
-              <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{productItem.name} ({productItem.size}/{productItem.color})</h1>
+              <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{productItem.name} - {productItem.category} ({productItem.size}/{productItem.color})</h1>
               <div className="flex mb-4">
                 <span className="flex items-center">
                   <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-pink-500" viewBox="0 0 24 24">
@@ -109,4 +110,4 @@ const Slug = async ({ params }) => {
   )
 }
 
-export default Slug
+export default ProductSlug

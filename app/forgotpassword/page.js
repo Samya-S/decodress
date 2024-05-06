@@ -1,10 +1,21 @@
+"use client"
 import Link from 'next/link'
-import React from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useEffect } from 'react'
 
 const ForgotPassword = () => {
+  const router = useRouter()
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      router.push('/account')
+    }
+    // eslint-disable-next-line
+  }, [])
+
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        {/* eslint-disable-next-line */}
         <img className="mx-auto h-20 w-auto" src="/codeswearcircle.png" alt="CodesWear" />
         <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Forgot Password</h2>
         <p className="mt-2 text-center text-sm text-gray-500">
