@@ -1,5 +1,7 @@
 import Razorpay from 'razorpay'
 import crypto from 'crypto'
+import connectDB from '@/middleware/connectToDB';
+import Order from '@/models/Order';
 
 const key_id = process.env.RZPAY_KEY_ID
 const key_secret = process.env.RZPAY_KEY_SECRET
@@ -8,6 +10,9 @@ const key_secret = process.env.RZPAY_KEY_SECRET
 // ROUTE 2: verifying an order using: POST "/api/order/verifyOrder"
 export async function POST(request) {
     try {
+        // Calls the connect function to establish a connection to the database.
+        await connectDB();
+
         /* Receive Payment Data */
         const reqBody = await request.json();
         const { order_id, payment_id, razorpay_signature } = reqBody;
@@ -21,6 +26,9 @@ export async function POST(request) {
         const generated_signature = hmac.digest('hex'); // Creating the hmac in the required format 
 
         if (razorpay_signature === generated_signature) {
+            // Update the order status to "Paid" and save the payment_id
+            await Order.findOneAndUpdate({ orderId: order_id }, { status: "Paid", paymentInfo: payment_id });
+
             return Response.json({ status: 200, success: true, message: "Payment has been verified" })
         }
         else {

@@ -1,5 +1,7 @@
 import Razorpay from 'razorpay'
 import crypto from 'crypto'
+import connectDB from '@/middleware/connectToDB';
+import Order from '@/models/Order';
 
 const key_id = process.env.RZPAY_KEY_ID
 const key_secret = process.env.RZPAY_KEY_SECRET
@@ -19,6 +21,9 @@ function generateString(length) {
 // creating an order using: POST "/api/createPaymentOrder"
 export async function POST(request) {
     try {
+        // Calls the connect function to establish a connection to the database.
+        await connectDB();
+
         const reqBody = await request.json();
         const { amount, currency } = reqBody;
 
@@ -34,9 +39,21 @@ export async function POST(request) {
             receipt: generateString(15)
         };
 
-        // creating an order
+        // creating an payment order
         const response = await razorpayInstance.orders.create(options)
-        return Response.json({ status: 201, success: true, data: response })
+
+        // initiate a order corresponding to the payment order id in the db
+        const { name, email, contact, address, pincode, cart, subtotal } = reqBody
+        const orderId = response.id
+        const receipt = response.receipt
+
+        // lowercase all cart item category
+        cart.forEach(item => item.category = item.category.toLowerCase())
+
+        const order = new Order({ email, orderId, address, amount: subtotal, products: cart })
+        await order.save()
+
+        return Response.json({ status: 201, success: true, data: {response,order} })
     }
     catch (error) {
         return Response.json({ status: error.status || 500, success: false, error: error.message || "Internal Server Error" });

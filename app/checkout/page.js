@@ -17,6 +17,21 @@ const CheckOut = () => {
     // eslint-disable-next-line
   }, [])
 
+  /* delivery details */
+  const [deliveryDetails, setDeliveryDetails] = useState({ name: 'User Name', email: 'sample@email.com', phone: '8888888888', address: 'abcd', pincode: '859696', city: '', state: '' })
+  const [payBtnDisabled, setPayBtnDisabled] = useState(true)
+
+  const handleChange = (e) => {
+    setDeliveryDetails({ ...deliveryDetails, [e.target.name]: e.target.value })
+    if (deliveryDetails.name && deliveryDetails.email && deliveryDetails.phone && deliveryDetails.address && deliveryDetails.pincode) {
+      setPayBtnDisabled(false)
+    }
+    else {
+      setPayBtnDisabled(true)
+    }
+  }
+
+  /* cart details */
   const [products, setProducts] = useState([])
   const [subtotal, setSubtotal] = useState(0)
 
@@ -34,19 +49,27 @@ const CheckOut = () => {
     setSubtotal(cart.subtotal)
   }, [cart])
 
+  /* payment */
   const initiatePayment = async () => {
     const hostingDomain = process.env.NEXT_PUBLIC_DOMAIN
     const amountVal = (subtotal * 100)
 
-    // Creating a new order
+    // Creating a new payment order
     const resp = await fetch(`${hostingDomain}/api/createPaymentOrder`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        "amount": amountVal,
-        "currency": "INR"
+        amount: amountVal,
+        currency: "INR",
+        name: deliveryDetails.name,
+        email: deliveryDetails.email,
+        contact: deliveryDetails.phone,
+        address: deliveryDetails.address,
+        pincode: deliveryDetails.pincode,
+        cart: products,
+        subtotal: subtotal
       }),
     })
 
@@ -56,7 +79,7 @@ const CheckOut = () => {
     console.log(orderResp);
 
     if (!orderResp.success) {
-      toast.error('Server error. Are you online?', {
+      toast.error('Server error. Please try again!', {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: false,
@@ -70,7 +93,7 @@ const CheckOut = () => {
     }
 
     // Getting the order details back
-    const { amount, id: order_id, currency } = orderResp.data;
+    const { amount, id: order_id, currency } = orderResp.data.response;
 
     const options = {
       key: process.env.RZPAY_KEY_ID,
@@ -80,6 +103,15 @@ const CheckOut = () => {
       description: "Payment Transaction",
       image: `${hostingDomain}/codeswearcircle.png`,
       order_id: order_id,
+      prefill: {
+        name: deliveryDetails.name,
+        email: deliveryDetails.email,
+        contact: deliveryDetails.phone,
+        method: 'card'
+      },
+      notes: {
+        address: deliveryDetails.address
+      },
       handler: async function (response) {
         const data = {
           payment_id: response.razorpay_payment_id,
@@ -113,6 +145,7 @@ const CheckOut = () => {
             draggable: true,
             progress: undefined,
             theme: "light",
+            onClose: () => router.push('/order')
           })
         }
         else {
@@ -127,15 +160,6 @@ const CheckOut = () => {
             theme: "light",
           });
         }
-      },
-      prefill: {
-        name: "XXXXX XXXX",
-        email: "xxxxxxx@xxx.xx",
-        contact: "9999999999",
-        method: 'card'
-      },
-      notes: {
-        address: "Xxxx xxxx xxxxx xxx xxxx",
       },
       theme: {
         // hide_topbar: true,
@@ -205,34 +229,34 @@ const CheckOut = () => {
       <h2 className="font-semibold text-xl mx-4">1. Delivery details</h2>
       <div className="m-4">
         <label htmlFor="name" className="leading-7 text-sm text-gray-600">Name</label>
-        <input type="text" id="name" name="name" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+        <input type="text" id="name" name="name" value={deliveryDetails.name} onChange={handleChange} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
       </div>
       <div className="mx-auto md:flex flex-wrap md:flex-nowrap justify-evenly">
         <div className="m-4 md:w-full">
           <label htmlFor="email" className="leading-7 text-sm text-gray-600">Email</label>
-          <input type="email" id="email" name="email" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+          <input type="email" id="email" name="email" value={deliveryDetails.email} onChange={handleChange} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
         </div>
         <div className="m-4 md:w-full">
           <label htmlFor="phone" className="leading-7 text-sm text-gray-600">Phone number</label>
-          <input type="phone" id="phone" name="phone" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+          <input type="phone" id="phone" name="phone" value={deliveryDetails.phone} onChange={handleChange} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
         </div>
       </div>
       <div className="m-4">
         <label htmlFor="address" className="leading-7 text-sm text-gray-600">Address</label>
-        <textarea id="address" name="address" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+        <textarea id="address" name="address" value={deliveryDetails.address} onChange={handleChange} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
       </div>
       <div className="mx-auto md:flex flex-wrap md:flex-nowrap justify-evenly">
         <div className="m-4 md:w-full">
+          <label htmlFor="pincode" className="leading-7 text-sm text-gray-600">Pin code</label>
+          <input type="text" id="pincode" name="pincode" value={deliveryDetails.pincode} onChange={handleChange} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+        </div>
+        <div className="m-4 md:w-full">
           <label htmlFor="city" className="leading-7 text-sm text-gray-600">City</label>
-          <input type="text" id="city" name="city" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+          <input type="text" id="city" name="city" value={deliveryDetails.city} readOnly={true} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
         </div>
         <div className="m-4 md:w-full">
           <label htmlFor="state" className="leading-7 text-sm text-gray-600">State</label>
-          <input type="text" id="state" name="state" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-        </div>
-        <div className="m-4 md:w-full">
-          <label htmlFor="pincode" className="leading-7 text-sm text-gray-600">Pin code</label>
-          <input type="text" id="pincode" name="pincode" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+          <input type="text" id="state" name="state" value={deliveryDetails.state} readOnly={true} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
         </div>
       </div>
 
@@ -260,7 +284,7 @@ const CheckOut = () => {
           </div>
         </>}
       </div>
-      <button onClick={initiatePayment} className='m-4 flex text-white bg-pink-500 border-0 py-2 px-3 focus:outline-none hover:bg-pink-600 rounded text-sm'>Pay ₹{subtotal}</button>
+      <button disabled={payBtnDisabled} onClick={initiatePayment} className='disabled:bg-pink-300 m-4 flex text-white bg-pink-500 border-0 py-2 px-3 focus:outline-none hover:bg-pink-600 rounded text-sm'>Pay ₹{subtotal}</button>
       <ToastContainer
         position="bottom-center"
         autoClose={2000}
