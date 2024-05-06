@@ -10,6 +10,7 @@ import { MdAccountCircle } from "react-icons/md";
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { clearCart, decreaseQuantity, increaseQuantity } from '@/redux/features/cart';
 import { ToastContainer, toast } from 'react-toastify';
+// import TopLoadingBar from './TopLoadingBar';
 
 const Navbar = () => {
   const token = (typeof window !== 'undefined') ? localStorage.getItem('token') : null
@@ -95,6 +96,8 @@ const Navbar = () => {
 
   return (
     <div className='sticky top-0 z-50 bg-white flex flex-col md:flex-row justify-center md:justify-start items-center py-2 mb-2 shadow-md'>
+      {/* <TopLoadingBar /> */}
+
       <div className="logo mx-5 self-start">
         <Link href={'/'}><Image src="/logo.png" alt="" width={200} height={49} /></Link>
       </div>
