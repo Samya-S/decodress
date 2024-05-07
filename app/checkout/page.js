@@ -18,7 +18,7 @@ const CheckOut = () => {
   }, [])
 
   /* delivery details */
-  const [deliveryDetails, setDeliveryDetails] = useState({ name: 'User Name', email: 'sample@email.com', phone: '8888888888', address: 'abcd', pincode: '859696', city: '', state: '' })
+  const [deliveryDetails, setDeliveryDetails] = useState({ name: 'User Name', email: 'sample@email.com', phone: '8888888888', address: 'abcd', pincode: '721302', city: '', state: '' })
   const [payBtnDisabled, setPayBtnDisabled] = useState(true)
 
   const handleChange = (e) => {
@@ -111,7 +111,7 @@ const CheckOut = () => {
     console.log(orderResp);
 
     if (!orderResp.success) {
-      toast.error('Server error. Please try again!', {
+      toast.error(orderResp.error, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: false,
