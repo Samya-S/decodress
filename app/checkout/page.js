@@ -2,7 +2,7 @@
 "use client"
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai"
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { decreaseQuantity, increaseQuantity } from "@/redux/features/cart";
+import { clearCart, decreaseQuantity, increaseQuantity } from "@/redux/features/cart";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
@@ -23,13 +23,34 @@ const CheckOut = () => {
 
   const handleChange = (e) => {
     setDeliveryDetails({ ...deliveryDetails, [e.target.name]: e.target.value })
-    if (deliveryDetails.name && deliveryDetails.email && deliveryDetails.phone && deliveryDetails.address && deliveryDetails.pincode) {
-      setPayBtnDisabled(false)
+  }
+
+  useEffect((e) => {
+    if (deliveryDetails.pincode.length === 6) {
+      // fetch(`https://api.postalpincode.in/pincode/${deliveryDetails.pincode}`)
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     console.log(data)
+      //     if (data[0].Status === 'Success') {
+      //       setDeliveryDetails({ ...deliveryDetails, city: data[0].PostOffice[0].Name, state: data[0].PostOffice[0].State })
+      //     }
+      //     else {
+      //       setDeliveryDetails({ ...deliveryDetails, city: '', state: '' })
+      //     }
+      //   })
+      fetch(`/api/pincode/`)
+        .then(response => response.json())
+        .then(data => {
+          if (Object.keys(data).includes(deliveryDetails.pincode)) {
+            setDeliveryDetails({ ...deliveryDetails, city: data[deliveryDetails.pincode][0], state: data[deliveryDetails.pincode][1] })
+          }
+        })
     }
     else {
-      setPayBtnDisabled(true)
+      setDeliveryDetails({ ...deliveryDetails, city: '', state: '' })
     }
-  }
+    // eslint-disable-next-line
+  }, [deliveryDetails.pincode])
 
   /* cart details */
   const [products, setProducts] = useState([])
@@ -48,6 +69,16 @@ const CheckOut = () => {
     setProducts(cart.products)
     setSubtotal(cart.subtotal)
   }, [cart])
+
+  /* set pay button disabled if incomplete delivery details or empty cart */
+  useEffect(() => {
+    if (deliveryDetails.name && deliveryDetails.email && deliveryDetails.phone && deliveryDetails.address && deliveryDetails.pincode && deliveryDetails.city && deliveryDetails.state && cart.products.length > 0) {
+      setPayBtnDisabled(false)
+    }
+    else {
+      setPayBtnDisabled(true)
+    }
+  }, [deliveryDetails, cart])
 
   /* payment */
   const initiatePayment = async () => {
@@ -69,7 +100,8 @@ const CheckOut = () => {
         address: deliveryDetails.address,
         pincode: deliveryDetails.pincode,
         cart: products,
-        subtotal: subtotal
+        subtotal: subtotal,
+        jwtToken: localStorage.getItem('token')
       }),
     })
 
@@ -262,7 +294,7 @@ const CheckOut = () => {
 
       <h2 className="font-semibold text-xl mx-4 pt-4">2. Review cart items</h2>
       <div className="cart bg-pink-100 m-4 py-4 pr-5 pl-8">
-        <ol className='font-semibold' style={{ listStyleType: 'upper-roman' }}>
+        <ol className='font-semibold max-w-screen-md' style={{ listStyleType: 'upper-roman' }}>
           {(typeof products != "undefined") && products.length === 0 && <p className='text-center mb-4'>Cart is empty</p>}
           {(typeof products != "undefined") && products.map(product => (
             <li key={product.itemCode}>

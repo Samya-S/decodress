@@ -1,6 +1,5 @@
 import connectDB from "@/middleware/connectToDB";
 import Order from "@/models/Order";
-import User from "@/models/User";
 import jwt from "jsonwebtoken";
 
 export async function POST(request) {
@@ -13,9 +12,8 @@ export async function POST(request) {
 
         // Find the user with the given token
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decodedToken.id);
 
-        const orders = await Order.find({ email: user.email });
+        const orders = await Order.find({ userId: decodedToken.id });
 
         return Response.json({
             status: 200,

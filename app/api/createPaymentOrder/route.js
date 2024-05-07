@@ -2,6 +2,7 @@ import Razorpay from 'razorpay'
 import crypto from 'crypto'
 import connectDB from '@/middleware/connectToDB';
 import Order from '@/models/Order';
+import jwt from 'jsonwebtoken';
 
 const key_id = process.env.RZPAY_KEY_ID
 const key_secret = process.env.RZPAY_KEY_SECRET
@@ -47,11 +48,15 @@ export async function POST(request) {
         const orderId = response.id
         const receipt = response.receipt
 
+        const { jwtToken } = reqBody
+        const decodedToken = jwt.verify(jwtToken, process.env.JWT_SECRET)
+        const userId = decodedToken.id
+
         // lowercase all cart item category
         cart.forEach(item => item.category = item.category.toLowerCase())
 
         const order = new Order({
-            email,
+            userId,
             orderId: receipt,
             paymentInfo: { orderId },
             address,

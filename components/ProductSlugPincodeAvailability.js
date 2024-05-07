@@ -34,7 +34,7 @@ const PincodeAvailability = (props) => {
         } else {
             let pincodes = await fetch(`${domain}/api/pincode`, { cache: "no-store" })
             pincodes = await pincodes.json()
-            if (pincodes.includes(parseInt(pincode))) {
+            if (Object.keys(pincodes).includes(pincode)) {
                 setServiceable(true)
                 toast.success('Yay! This pincode is serviceable', {
                     position: "bottom-center",
