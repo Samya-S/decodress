@@ -15,7 +15,11 @@ import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
   const router = useRouter()
-  const token = (typeof window !== 'undefined') ? localStorage.getItem('token') : null
+  
+  const [token, setToken] = useState(null)
+  useEffect(() => {
+    setToken(localStorage.getItem('token'))
+  }, [])
 
   /* account dropdown */
   const [showAccountDropdown, setShowAccountDropdown] = useState(false)
