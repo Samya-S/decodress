@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
   const router = useRouter()
-  
+
   const [token, setToken] = useState(null)
   useEffect(() => {
     setToken(localStorage.getItem('token'))
@@ -131,7 +131,7 @@ const Navbar = () => {
         <AiOutlineShoppingCart onClick={toggleCart} className='text-xl md:text-3xl cursor-pointer' />
       </div>
 
-      <div ref={sideCartRef} className="sideCart overflow-y-scroll w-72 h-full z-30 fixed top-0 right-0 bg-pink-100 py-10 pr-5 pl-8 transform transition-transform translate-x-full">
+      <div ref={sideCartRef} className="sideCart overflow-y-scroll w-72 h-full z-30 fixed top-0 right-0 bg-pink-100 py-10 pr-5 pl-8 transform transition-transform translate-x-full" style={{scrollbarWidth: 'none'}}>
         <h2 className='font-bold text-xl text-center mt-2 mb-5'>Shopping cart</h2>
         <span onClick={toggleCart} className='absolute top-5 right-2 cursor-pointer text-2xl text-pink-500'><IoIosCloseCircle /></span>
         <ol className='list-decimal font-semibold'>
