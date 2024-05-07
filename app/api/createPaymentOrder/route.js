@@ -41,15 +41,15 @@ export async function POST(request) {
             const product = await Product.findOne({ slug: item.itemCode })
 
             if (!product || !item.category || !item.name || !item.price || !item.quantity) {
-                return Response.json({ status: 400, success: false, error: "Invalid cart item. Please try again!" })
+                return Response.json({ status: 400, success: false, error: "Some products in your cart has been changed. Please try again!", cartIsTampered: true })
             }
 
             if (product.price !== item.price) {
-                return Response.json({ status: 400, success: false, error: "Price mismatch. Cart has been tampered. Please try again!" })
+                return Response.json({ status: 400, success: false, error: "Price of some items in your cart has been changed. Please try again!", cartIsTampered: true })
             }
 
             if (product.category.toLowerCase() !== item.category.toLowerCase() || product.title !== item.name || product.size !== item.size || product.color !== item.color) {
-                return Response.json({ status: 400, success: false, error: "Product mismatch. Cart has been tampered. Please try again!" })
+                return Response.json({ status: 400, success: false, error: "Some products in your cart has been changed. Please try again!", cartIsTampered: true })
             }
 
             if (product.availableQty < item.quantity) {
@@ -60,7 +60,7 @@ export async function POST(request) {
         }
 
         if (totalPrice !== subtotal) {
-            return Response.json({ status: 400, success: false, error: "Price mismatch. Please try again!" })
+            return Response.json({ status: 400, success: false, error: "Price of some items in your cart has been changed. Please try again!", cartIsTampered: true })
         }
 
 

@@ -121,6 +121,9 @@ const CheckOut = () => {
         progress: undefined,
         theme: "light",
       });
+      if (orderResp.cartIsTampered) {
+        dispatch(clearCart())
+      }
       return;
     }
 
