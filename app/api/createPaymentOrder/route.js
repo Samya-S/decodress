@@ -9,7 +9,7 @@ const key_secret = process.env.RZPAY_KEY_SECRET
 // creating a random string for receipt
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 function generateString(length) {
-    let result = ' ';
+    let result = '';
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -50,10 +50,17 @@ export async function POST(request) {
         // lowercase all cart item category
         cart.forEach(item => item.category = item.category.toLowerCase())
 
-        const order = new Order({ email, orderId, address, amount: subtotal, products: cart })
+        const order = new Order({
+            email,
+            orderId: receipt,
+            paymentInfo: { orderId },
+            address,
+            amount: subtotal,
+            products: cart
+        })
         await order.save()
 
-        return Response.json({ status: 201, success: true, data: {response,order} })
+        return Response.json({ status: 201, success: true, data: { response, order } })
     }
     catch (error) {
         return Response.json({ status: error.status || 500, success: false, error: error.message || "Internal Server Error" });

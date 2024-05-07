@@ -20,16 +20,23 @@ export async function POST(request) {
 
         const keySecret = key_secret;
 
-        /* Verification & Send Response to User */        
+        /* Verification & Send Response to User */
         let hmac = crypto.createHmac('sha256', keySecret);  // Creating hmac object         
         hmac.update(order_id + "|" + payment_id);   // Passing the data to be hashed         
         const generated_signature = hmac.digest('hex'); // Creating the hmac in the required format 
 
         if (razorpay_signature === generated_signature) {
             // Update the order status to "Paid" and save the payment_id
-            await Order.findOneAndUpdate({ orderId: order_id }, { status: "Paid", paymentInfo: payment_id });
+            const order = await Order.findOneAndUpdate({ 'paymentInfo.orderId': order_id }, {
+                status: "Paid",
+                paymentInfo: {
+                    orderId: order_id,
+                    paymentId: payment_id,
+                    razorpaySignature: razorpay_signature
+                }
+            });
 
-            return Response.json({ status: 200, success: true, message: "Payment has been verified" })
+            return Response.json({ status: 200, success: true, message: "Payment has been verified", order_id: order._id })
         }
         else {
             return Response.json({ status: 400, success: false, message: "Payment verification failed" })

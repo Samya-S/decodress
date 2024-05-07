@@ -42,6 +42,7 @@ const SignUp = () => {
         draggable: true,
         progress: undefined,
         theme: "light",
+        onClose: () => router.push('/login')
       });
       setUserCredentials({ name: '', email: '', password: '' })
     } else {

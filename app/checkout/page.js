@@ -145,7 +145,7 @@ const CheckOut = () => {
             draggable: true,
             progress: undefined,
             theme: "light",
-            onClose: () => router.push('/order')
+            onClose: () => router.push(`/order?id=${result.order_id}`)
           })
         }
         else {

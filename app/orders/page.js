@@ -1,64 +1,74 @@
 "use client"
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 async function getProduct() {
-    const domain = process.env.HOSTING_DOMAIN
-    const res = await fetch(`${domain}/api/getProducts`, { cache: "no-store" })
-    const data = await res.json()
+    const res = await fetch(`/api/getAllOrders`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: localStorage.getItem('token') })
+    })
+    const orders = await res.json()
 
-    const product = await data.body.data.filter(product => product.slug === slug)
-
-
-    return { product, variants: colorSizeSlug }
+    return orders
 }
 
 const Orders = () => {
     const router = useRouter()
+    const [orders, setOrders] = useState([])
+
     useEffect(() => {
         if (!localStorage.getItem('token')) {
             router.push('/login')
+        }
+        else {
+            getProduct().then(data => {
+                if (data.success) {
+                    setOrders(data.orders)
+                }
+            })
         }
         // eslint-disable-next-line
     }, [])
 
     return (
         <div className='container bg-pink-50 mx-auto'>
-            <p className='font-bold text-3xl mt-6 pt-5 pb-2 text-center'>My Orders</p>
-            <div class="flex flex-col px-5 py-2">
-                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+            <p className='font-bold text-2xl md:text-3xl mt-6 pt-5 pb-2 text-center'>My Orders</p>
+            <div class="flex flex-col px-3 py-2">
+                <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full py-2 sm:px-6">
                         <div class="overflow-hidden">
-                            <table
-                                class="min-w-full text-left text-sm font-light text-surface">
+                            <table class="min-w-full text-left font-light text-surface">
                                 <thead
                                     class="border-b border-neutral-200 font-medium">
                                     <tr>
-                                        <th scope="col" class="px-6 py-4">#</th>
-                                        <th scope="col" class="px-6 py-4">First</th>
-                                        <th scope="col" class="px-6 py-4">Last</th>
-                                        <th scope="col" class="px-6 py-4">Handle</th>
+                                        <th scope="col" class="px-6 py-4 text-base md:text-lg">Order Id</th>
+                                        <th scope="col" class="px-6 py-4 text-base md:text-lg">Items</th>
+                                        <th scope="col" class="px-6 py-4 text-base md:text-lg">Amount</th>
+                                        <th scope="col" class="px-6 py-4 text-base md:text-lg">Payment Status</th>
+                                        <th scope="col" class="px-6 py-4 text-base md:text-lg">Details</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="border-b border-neutral-200">
-                                        <td class="whitespace-nowrap px-6 py-4 font-medium">1</td>
-                                        <td class="whitespace-nowrap px-6 py-4">Mark</td>
-                                        <td class="whitespace-nowrap px-6 py-4">Otto</td>
-                                        <td class="whitespace-nowrap px-6 py-4">@mdo</td>
-                                    </tr>
-                                    <tr class="border-b border-neutral-200">
-                                        <td class="whitespace-nowrap px-6 py-4 font-medium">2</td>
-                                        <td class="whitespace-nowrap px-6 py-4">Jacob</td>
-                                        <td class="whitespace-nowrap px-6 py-4">Thornton</td>
-                                        <td class="whitespace-nowrap px-6 py-4">@fat</td>
-                                    </tr>
-                                    <tr class="border-b border-neutral-200">
-                                        <td class="whitespace-nowrap px-6 py-4 font-medium">3</td>
-                                        <td class="whitespace-nowrap px-6 py-4">Larry</td>
-                                        <td class="whitespace-nowrap px-6 py-4">Wild</td>
-                                        <td class="whitespace-nowrap px-6 py-4">@twitter</td>
-                                    </tr>
+                                    {orders.map((order) => {
+                                        return <tr key={order._id} class="border-b border-neutral-200">
+                                            <td class="whitespace-nowrap px-6 py-4 text-sm md:text-base font-medium">{order.orderId}</td>
+                                            <td class="whitespace-nowrap px-6 py-4 text-sm md:text-base">
+                                                <ul className='list-disc'>
+                                                    {order.products.map((item) => {
+                                                        return <li key={item._id}>{item.name} - {item.category.charAt(0).toUpperCase() + item.category.slice(1)} ({item.size}/{item.color})</li>
+                                                    })}
+                                                </ul>
+                                            </td>
+                                            <td class="whitespace-nowrap px-6 py-4 text-sm md:text-base">{order.amount}</td>
+                                            <td class="whitespace-nowrap px-6 py-4 text-sm md:text-base">{order.status}</td>
+                                            <td class="whitespace-nowrap px-6 py-4 text-sm md:text-base"><Link href={'/order?id=' + order._id}>Check order</Link></td>
+                                        </tr>
+                                    })}
+
                                 </tbody>
                             </table>
                         </div>
