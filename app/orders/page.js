@@ -37,7 +37,8 @@ const Orders = () => {
     return (
         <div className='container bg-pink-50 mx-auto'>
             <p className='font-bold text-2xl md:text-3xl mt-6 pt-5 pb-2 text-center'>My Orders</p>
-            <div class="flex flex-col px-3 py-2">
+            {orders.length === 0 && <p className='text-lg min-h-[50vh] flex items-center justify-center'>No orders yet</p>}
+            {orders.length > 0 &&<div class="flex flex-col px-3 py-2">
                 <div class="overflow-x-auto">
                     <div class="inline-block min-w-full py-2 sm:px-6">
                         <div class="overflow-hidden">
@@ -59,11 +60,11 @@ const Orders = () => {
                                             <td class="whitespace-nowrap px-6 py-4 text-sm md:text-base">
                                                 <ul className='list-disc'>
                                                     {order.products.map((item) => {
-                                                        return <li key={item._id}>{item.name} - {item.category.charAt(0).toUpperCase() + item.category.slice(1)} ({item.size}/{item.color})</li>
+                                                        return <li key={item._id}>{item.name} - {item.category.charAt(0).toUpperCase() + item.category.slice(1)} ({item.size}/{item.color}): {item.quantity}</li>
                                                     })}
                                                 </ul>
                                             </td>
-                                            <td class="whitespace-nowrap px-6 py-4 text-sm md:text-base">{order.amount}</td>
+                                            <td class="whitespace-nowrap px-6 py-4 text-sm md:text-base">₹{order.amount}.00</td>
                                             <td class="whitespace-nowrap px-6 py-4 text-sm md:text-base">{order.status}</td>
                                             <td class="whitespace-nowrap px-6 py-4 text-sm md:text-base"><Link href={'/order?id=' + order._id}>Check order</Link></td>
                                         </tr>
@@ -74,7 +75,7 @@ const Orders = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
         </div>
     )
 }

@@ -29,11 +29,11 @@ export async function POST(request) {
         const reqBody = await request.json();
 
 
-        // check if cart is tampered
+        // check if cart is tampered or available quantity is less than the quantity in cart
         const { cart, subtotal } = reqBody
 
-        if (!cart || cart.length === 0) {
-            return Response.json({ status: 400, success: false, error: "Cart is empty. Please try again!" })
+        if (!cart || cart.length === 0 || !subtotal || subtotal <= 0) {
+            return Response.json({ status: 400, success: false, error: "Cart is empty. Please build your cart and try again!" })
         }
 
         let totalPrice = 0
@@ -53,7 +53,7 @@ export async function POST(request) {
             }
 
             if (product.availableQty < item.quantity) {
-                return Response.json({ status: 400, success: false, error: "Stock not available" })
+                return Response.json({ status: 400, success: false, error: "Some items in your cart went out of stock. Please try again!", cartIsTampered: true })
             }
 
             totalPrice += item.price * item.quantity
@@ -63,6 +63,15 @@ export async function POST(request) {
             return Response.json({ status: 400, success: false, error: "Price of some items in your cart has been changed. Please try again!", cartIsTampered: true })
         }
 
+
+        // check if details provided are valid - [email, phone]
+        const { email, phone, pincode } = reqBody
+        if(phone.length !== 10 && !/^\d+$/.test(phone) /* only numbers check */) {
+            return Response.json({ status: 400, success: false, error: "Please provide a valid 10 digit phone number!" })
+        }
+        if(pincode.length !== 6 && !/^\d+$/.test(pincode) /* only numbers check */) {
+            return Response.json({ status: 400, success: false, error: "Please provide your 6 digit pincode!" })
+        }
 
         // create a razorpay payment order
         const { amount, currency } = reqBody;
@@ -81,15 +90,15 @@ export async function POST(request) {
         const response = await razorpayInstance.orders.create(options)
 
 
-        // initiate a order in the db corresponding to the payment order id
-        const { name, email, contact, address, pincode } = reqBody
+        // initiate a order in the db corresponding to the payment order id - [name, email, phone, pincode are nto saved in the db]
+        const { name, address } = reqBody
         const orderId = response.id
         const receipt = response.receipt
 
         const { jwtToken } = reqBody
         const decodedToken = jwt.verify(jwtToken, process.env.JWT_SECRET)
         const userId = decodedToken.id
-        
+
         cart.forEach(item => item.category = item.category.toLowerCase())   // lowercase all cart item category
 
         const order = new Order({

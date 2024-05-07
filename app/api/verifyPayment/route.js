@@ -2,6 +2,7 @@ import Razorpay from 'razorpay'
 import crypto from 'crypto'
 import connectDB from '@/middleware/connectToDB';
 import Order from '@/models/Order';
+import Product from '@/models/Product';
 
 const key_id = process.env.RZPAY_KEY_ID
 const key_secret = process.env.RZPAY_KEY_SECRET
@@ -36,9 +37,19 @@ export async function POST(request) {
                 }
             });
 
+            // Decrease availableQty of products in Product collection
+            for (let item of order.products) {
+                await Product.findOneAndUpdate({ slug: item.itemCode }, { $inc: { availableQty: -item.quantity } });
+            }
+
             return Response.json({ status: 200, success: true, message: "Payment has been verified", order_id: order._id })
         }
         else {
+            // Update the order status to "Pending"
+            await Order.findOneAndUpdate({ 'paymentInfo.orderId': order_id }, {
+                status: "Pending"
+            });
+
             return Response.json({ status: 400, success: false, message: "Payment verification failed" })
         }
     }
