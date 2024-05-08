@@ -80,9 +80,9 @@ const Stickers = async () => {
     <div>
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
-          <div className="flex flex-wrap justify-evenly -m-4">
+          <div className="flex flex-wrap justify-evenly items-center -m-4 min-h-[40vh]">
             {Object.keys(stickers).length === 0 &&
-              <div className="text-center">Sorry all the stickers are out of stock. New stock comming soon. Stay tuned!</div>
+              <div className="text-center px-5">Sorry all the stickers are out of stock. New stock comming soon. Stay tuned!</div>
             }
             {Object.keys(stickers).map((item) => (
               <div key={stickers[item]._id} className="lg:w-1/5 md:w-1/2 p-4 w-full shadow-lg m-5">
