@@ -2,6 +2,7 @@ import PincodeAvailability from "@/components/ProductSlugPincodeAvailability"
 import AddToCart from "@/components/ProductSlugAddToCart";
 import ProductSlugColorSize from "@/components/ProductSlugColorSize";
 import BuyNow from "@/components/ProductSlugBuyNow";
+import { notFound } from "next/navigation";
 
 async function getProduct(slug) {
   const domain = process.env.HOSTING_DOMAIN
@@ -9,6 +10,10 @@ async function getProduct(slug) {
   const data = await res.json()
 
   const product = await data.body.data.filter(product => product.slug === slug)
+  if (product.length === 0) {
+    return { product, variants: {}, error: true }
+  }
+
   const variants = await data.body.data.filter(prod => prod.title === product[0].title && prod.category === product[0].category)
 
   let colorSizeSlug = {}
@@ -22,22 +27,27 @@ async function getProduct(slug) {
     }
   }
 
-  return { product, variants: colorSizeSlug }
+  return { product, variants: colorSizeSlug, error: false }
 }
 
 const ProductSlug = async ({ params }) => {
   const domain = process.env.HOSTING_DOMAIN
-  const { product, variants } = await getProduct(params.slug)
+  const { product, variants, error } = await getProduct(params.slug)
 
-  const productItem = {
+  if (error) {
+    return notFound()
+  }
+
+  const productItem = (!error) && {
     itemCode: params.slug,
     name: product[0].title,
     price: product[0].price,
     size: product[0].size,
     color: product[0].color,
     description: product[0].description,
-    imgUrl: product[0].img,    
-    category: product[0].category.charAt(0).toUpperCase() + product[0].category.slice(1) // Capitalize the first letter
+    imgUrl: product[0].img,
+    category: product[0].category.charAt(0).toUpperCase() + product[0].category.slice(1), // Capitalize the first letter
+    availableQty: product[0].availableQty
   }
 
   return (
@@ -90,7 +100,8 @@ const ProductSlug = async ({ params }) => {
               <p className="leading-relaxed">{productItem.description}</p>
               <ProductSlugColorSize variants={variants} productItem={productItem} />
               <div className="flex flex-wrap gap-2">
-                <span className="flex items-center title-font font-medium text-2xl text-gray-900">₹{productItem.price}.00</span>
+                {productItem.availableQty > 0 && <span className="flex items-center title-font font-medium text-2xl text-gray-900">₹{productItem.price}.00</span>}
+                {productItem.availableQty <= 0 && <span className="flex items-center title-font font-medium text-2xl text-gray-900">Out of stock!</span>}
                 <div className="flex gap-4 ml-auto flex-wrap">
                   <AddToCart product={productItem} />
                   <BuyNow product={productItem} />

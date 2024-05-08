@@ -123,7 +123,7 @@ const Navbar = () => {
           {token && <MdAccountCircle onMouseOver={() => { setShowAccountDropdown(true) }} className='text-xl md:text-3xl cursor-pointer' />}
           {showAccountDropdown && <div onMouseLeave={() => { setShowAccountDropdown(false) }} ref={accountDropdownRef} className='absolute top-12 right-0 w-40 bg-pink-200 py-2 px-4 rounded-md shadow-md font-semibold'>
             <Link href={'/account'}><p className='text-gray-800 hover:text-pink-600 py-2 px-4'>My Account</p></Link>
-            <Link href={'/orders'}><p className='text-gray-800 hover:text-pink-600 py-2 px-4'>Orders</p></Link>
+            <Link href={'/orders'}><p className='text-gray-800 hover:text-pink-600 py-2 px-4'>My Orders</p></Link>
             <p onClick={logOut} className='text-gray-800 hover:text-pink-600 py-2 px-4 cursor-pointer'>Logout</p>
           </div>}
         </div>
