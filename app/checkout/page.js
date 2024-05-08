@@ -28,7 +28,7 @@ const CheckOut = () => {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          setDeliveryDetails({ ...deliveryDetails, name: data.user.name, email: data.user.email })
+          setDeliveryDetails({ ...deliveryDetails, name: data.user.name, email: data.user.email, phone: data.user.phone, address: data.user.address, pincode: data.user.pincode})
         }
       })
     // eslint-disable-next-line
@@ -36,41 +36,41 @@ const CheckOut = () => {
 
 
   /* delivery details */
-  const [deliveryDetails, setDeliveryDetails] = useState({ name: '', email: '', phone: '', address: 'abcd', pincode: '721302', district: '', state: '' })
+  const [deliveryDetails, setDeliveryDetails] = useState({ name: '', email: '', phone: '', address: '', pincode: '', city: '', state: '' })
   const [payBtnDisabled, setPayBtnDisabled] = useState(true)
 
   const handleChange = (e) => {
     setDeliveryDetails({ ...deliveryDetails, [e.target.name]: e.target.value })
   }
 
-  const getLocationDetialsFromPincode = () => {
+  const getLocationDetailsFromPincode = () => {
     if (deliveryDetails.pincode.length === 6) {
       // fetch(`https://api.postalpincode.in/pincode/${deliveryDetails.pincode}`)
       //   .then(response => response.json())
       //   .then(data => {
       //     console.log(data)
       //     if (data[0].Status === 'Success') {
-      //       setDeliveryDetails({ ...deliveryDetails, district: data[0].PostOffice[0].Name, state: data[0].PostOffice[0].State })
+      //       setDeliveryDetails({ ...deliveryDetails, city: data[0].PostOffice[0].Name, state: data[0].PostOffice[0].State })
       //     }
       //     else {
-      //       setDeliveryDetails({ ...deliveryDetails, district: '', state: '' })
+      //       setDeliveryDetails({ ...deliveryDetails, city: '', state: '' })
       //     }
       //   })
       fetch(`/api/pincode/`)
         .then(response => response.json())
         .then(data => {
           if (Object.keys(data).includes(deliveryDetails.pincode)) {
-            setDeliveryDetails({ ...deliveryDetails, district: data[deliveryDetails.pincode][0], state: data[deliveryDetails.pincode][1] })
+            setDeliveryDetails({ ...deliveryDetails, city: data[deliveryDetails.pincode][0], state: data[deliveryDetails.pincode][1] })
           }
         })
     }
     else {
-      setDeliveryDetails({ ...deliveryDetails, district: '', state: '' })
+      setDeliveryDetails({ ...deliveryDetails, city: '', state: '' })
     }
   }
 
   useEffect(() => {
-    getLocationDetialsFromPincode()
+    getLocationDetailsFromPincode()
     // eslint-disable-next-line
   }, [deliveryDetails.pincode])
 
@@ -96,7 +96,7 @@ const CheckOut = () => {
 
   /* set pay button disabled if incomplete delivery details or empty cart */
   useEffect(() => {
-    if (deliveryDetails.name && deliveryDetails.email && deliveryDetails.phone && deliveryDetails.address && deliveryDetails.pincode && deliveryDetails.district && deliveryDetails.state && cart.products.length > 0 && cart.subtotal > 0) {
+    if (deliveryDetails.name && deliveryDetails.email && deliveryDetails.phone && deliveryDetails.address && deliveryDetails.pincode && deliveryDetails.city && deliveryDetails.state && cart.products.length > 0 && cart.subtotal > 0) {
       setPayBtnDisabled(false)
     }
     else {
@@ -124,6 +124,8 @@ const CheckOut = () => {
         phone: deliveryDetails.phone,
         address: deliveryDetails.address,
         pincode: deliveryDetails.pincode,
+        city: deliveryDetails.city,
+        state: deliveryDetails.state,
         cart: products,
         subtotal: subtotal,
         jwtToken: localStorage.getItem('token')
@@ -287,7 +289,7 @@ const CheckOut = () => {
   return (
     <div className="container m-auto">
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
-      <h1 className="font-bold text-3xl my-8 text-center">Checkout</h1>
+      <h1 className="font-bold text-2xl md:text-3xl my-8 text-center">Checkout</h1>
       <h2 className="font-semibold text-xl mx-4">1. Delivery details</h2>
       <div className="m-4">
         <label htmlFor="name" className="leading-7 text-sm text-gray-600">Name</label>
@@ -313,8 +315,8 @@ const CheckOut = () => {
           <input type="text" id="pincode" name="pincode" value={deliveryDetails.pincode} onChange={handleChange} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
         </div>
         <div className="m-4 md:w-full">
-          <label htmlFor="district" className="leading-7 text-sm text-gray-600">District</label>
-          <input type="text" id="district" name="district" value={deliveryDetails.district} readOnly={true} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+          <label htmlFor="city" className="leading-7 text-sm text-gray-600">City</label>
+          <input type="text" id="city" name="city" value={deliveryDetails.city} readOnly={true} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
         </div>
         <div className="m-4 md:w-full">
           <label htmlFor="state" className="leading-7 text-sm text-gray-600">State</label>

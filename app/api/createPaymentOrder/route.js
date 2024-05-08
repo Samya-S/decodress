@@ -64,12 +64,12 @@ export async function POST(request) {
         }
 
 
-        // check if details provided are valid - [email, phone]
+        // check if details provided are valid - [email, phone, pincode] - {email validation not done}
         const { email, phone, pincode } = reqBody
-        if(phone.length !== 10 && !/^\d+$/.test(phone) /* only numbers check */) {
+        if (phone.length !== 10 && !/^\d+$/.test(phone) /* only numbers check */) {
             return Response.json({ status: 400, success: false, error: "Please provide a valid 10 digit phone number!" })
         }
-        if(pincode.length !== 6 && !/^\d+$/.test(pincode) /* only numbers check */) {
+        if (pincode.length !== 6 && !/^\d+$/.test(pincode) /* only numbers check */) {
             return Response.json({ status: 400, success: false, error: "Please provide your 6 digit pincode!" })
         }
 
@@ -90,8 +90,8 @@ export async function POST(request) {
         const response = await razorpayInstance.orders.create(options)
 
 
-        // initiate a order in the db corresponding to the payment order id - [name, email, phone, pincode are nto saved in the db]
-        const { name, address } = reqBody
+        // initiate a order in the db corresponding to the payment order id
+        const { name, address, city, state } = reqBody
         const orderId = response.id
         const receipt = response.receipt
 
@@ -104,8 +104,16 @@ export async function POST(request) {
         const order = new Order({
             userId,
             orderId: receipt,
+            name,
+            email,
+            phone,
             paymentInfo: { orderId },
-            address,
+            address: {
+                address,
+                city,
+                state,
+                pincode,
+            },
             amount: subtotal,
             products: cart
         })

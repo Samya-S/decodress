@@ -12,11 +12,21 @@ export async function POST(request) {
 
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
-        const user = await User.findById(decodedToken.id);
+        const { name, email, phone, address, pincode, city, state } = reqBody;
+
+        const user = await User.findByIdAndUpdate(decodedToken.id, {
+            name,
+            email,
+            phone,
+            address,
+            pincode,
+            // city,
+            // state,
+        }, { new: true });
 
         return Response.json({
             status: 200,
-            success: true, 
+            success: true,
             user: {
                 name: user.name,
                 email: user.email,
