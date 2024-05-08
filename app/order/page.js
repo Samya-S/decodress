@@ -19,11 +19,13 @@ const Order = () => {
   const searchParams = useSearchParams()
   const id = searchParams.get("id")
   const [orderDetails, setOrderDetails] = useState({})
+  const [date, setDate] = useState()
 
   useEffect(() => {
     getOrderDetails(id).then((order) => {
       if (order.success) {
         setOrderDetails(order.order)
+        setDate(new Date(order.order.createdAt))
       }
     })
   }, [id])
@@ -36,8 +38,8 @@ const Order = () => {
             <div className="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
               <h2 className="text-xs md:text-sm title-font text-gray-500 tracking-widest">CODESWEAR.COM</h2>
               <h1 className="text-gray-900 text-xl md:text-3xl title-font font-medium mb-4">Order id: #{orderDetails.orderId}</h1>
-
               <p className="leading-relaxed">Yayy! Your order has been successfully placed.</p>
+              <p className="leading-relaxed">Order placed on: {date && date.toLocaleString("en-IN", {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'})}</p>
               <p className="mb-5">Your payment status is <span className="font-semibold text-slate-500">{orderDetails.status}</span>.</p>
 
               <div class="w-full mx-auto mb-6 overflow-auto text-sm md:text-base">
