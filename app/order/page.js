@@ -36,7 +36,7 @@ const Order = () => {
         <div className="container px-5 py-24 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
             <div className="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
-              <h2 className="text-xs md:text-sm title-font text-gray-500 tracking-widest">CODESWEAR.COM</h2>
+              <h2 className="text-xs md:text-sm title-font text-gray-500 tracking-widest">DECODRESS</h2>
               <h1 className="text-gray-900 text-xl md:text-3xl title-font font-medium mb-4">Order id: #{orderDetails.orderId}</h1>
               <p className="leading-relaxed">Yayy! Your order has been successfully placed.</p>
               <p className="leading-relaxed">Order placed on: {date && date.toLocaleString("en-IN", {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'})}</p>
@@ -65,7 +65,7 @@ const Order = () => {
 
               <div className="flex items-center">
                 <span className="title-font font-medium text-2xl text-gray-900">₹{orderDetails.amount}.00</span>
-                <button class="flex ml-auto text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded">Track order</button>
+                <button class="flex ml-auto text-white bg-violet-500 border-0 py-2 px-6 focus:outline-none hover:bg-violet-600 rounded">Track order</button>
               </div>
             </div>
             {/* eslint-disable-next-line */}

@@ -172,56 +172,56 @@ const MyAccount = () => {
       <form onSubmit={handleUpdateAccountDetails} className='my-4'>
         <div className="m-4">
           <label htmlFor="name" className="leading-7 text-sm text-gray-600">Name</label>
-          <input type="text" id="name" name="name" value={accountDetails.name} onChange={handleAccountDetailsChange} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+          <input type="text" id="name" name="name" value={accountDetails.name} onChange={handleAccountDetailsChange} className="w-full bg-white rounded border border-gray-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
         </div>
         <div className="mx-auto md:flex flex-wrap md:flex-nowrap justify-evenly">
           <div className="m-4 md:w-full">
             <label htmlFor="email" className="leading-7 text-sm text-gray-600">Email</label>
-            <input type="email" id="email" name="email" value={accountDetails.email} onChange={handleAccountDetailsChange} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+            <input type="email" id="email" name="email" value={accountDetails.email} onChange={handleAccountDetailsChange} className="w-full bg-white rounded border border-gray-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
           </div>
           <div className="m-4 md:w-full">
             <label htmlFor="phone" className="leading-7 text-sm text-gray-600">Phone Number</label>
-            <input type="phone" id="phone" name="phone" value={accountDetails.phone} onChange={handleAccountDetailsChange} placeholder="Your 10 digit phone number" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+            <input type="phone" id="phone" name="phone" value={accountDetails.phone} onChange={handleAccountDetailsChange} placeholder="Your 10 digit phone number" className="w-full bg-white rounded border border-gray-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
           </div>
         </div>
         <div className="m-4">
           <label htmlFor="address" className="leading-7 text-sm text-gray-600">Address</label>
-          <textarea id="address" name="address" value={accountDetails.address} onChange={handleAccountDetailsChange} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+          <textarea id="address" name="address" value={accountDetails.address} onChange={handleAccountDetailsChange} className="w-full bg-white rounded border border-gray-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
         </div>
         <div className="mx-auto md:flex flex-wrap md:flex-nowrap justify-evenly">
           <div className="m-4 md:w-full">
             <label htmlFor="pincode" className="leading-7 text-sm text-gray-600">Pin Code</label>
-            <input type="text" id="pincode" name="pincode" value={accountDetails.pincode} onChange={handleAccountDetailsChange} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+            <input type="text" id="pincode" name="pincode" value={accountDetails.pincode} onChange={handleAccountDetailsChange} className="w-full bg-white rounded border border-gray-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
           </div>
           <div className="m-4 md:w-full">
             <label htmlFor="city" className="leading-7 text-sm text-gray-600">City</label>
-            <input type="text" id="city" name="city" value={accountDetails.city} readOnly={true} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+            <input type="text" id="city" name="city" value={accountDetails.city} readOnly={true} className="w-full bg-white rounded border border-gray-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
           </div>
           <div className="m-4 md:w-full">
             <label htmlFor="state" className="leading-7 text-sm text-gray-600">State</label>
-            <input type="text" id="state" name="state" value={accountDetails.state} readOnly={true} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+            <input type="text" id="state" name="state" value={accountDetails.state} readOnly={true} className="w-full bg-white rounded border border-gray-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
           </div>
         </div>
-        <button type="submit" className="m-4 bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded">Update</button>
+        <button type="submit" className="m-4 bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded">Update</button>
       </form>
 
       <h2 className="font-semibold text-xl mx-4">2. Change Password</h2>
       <form onSubmit={handleUpdatePassword} className='my-4'>
         <div className="m-4">
           <label htmlFor="oldPassword" className="leading-7 text-sm text-gray-600">Old Password</label>
-          <input type="password" id="oldPassword" name="oldPassword" value={accountPassword.oldPassword} onChange={handlePasswordChange} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+          <input type="password" id="oldPassword" name="oldPassword" value={accountPassword.oldPassword} onChange={handlePasswordChange} className="w-full bg-white rounded border border-gray-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
         </div>
         <div className="mx-auto md:flex flex-wrap md:flex-nowrap justify-evenly">
           <div className="m-4 md:w-full">
             <label htmlFor="newPassword" className="leading-7 text-sm text-gray-600">New Password</label>
-            <input type="password" id="newPassword" name="newPassword" value={accountPassword.newPassword} onChange={handlePasswordChange} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+            <input type="password" id="newPassword" name="newPassword" value={accountPassword.newPassword} onChange={handlePasswordChange} className="w-full bg-white rounded border border-gray-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
           </div>
           <div className="m-4 md:w-full">
             <label htmlFor="confirmPassword" className="leading-7 text-sm text-gray-600">Confirm New Password</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" value={accountPassword.confirmPassword} onChange={handlePasswordChange} className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+            <input type="password" id="confirmPassword" name="confirmPassword" value={accountPassword.confirmPassword} onChange={handlePasswordChange} className="w-full bg-white rounded border border-gray-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
           </div>
         </div>
-        <button type="submit" className="m-4 bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+        <button type="submit" className="m-4 bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded">Submit</button>
       </form>
 
       <ToastContainer

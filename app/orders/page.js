@@ -35,7 +35,7 @@ const Orders = () => {
     }, [])
 
     return (
-        <div className='container bg-pink-50 mx-auto'>
+        <div className='container bg-violet-50 mx-auto'>
             <p className='font-bold text-2xl md:text-3xl mt-6 pt-5 pb-2 text-center'>My Orders</p>
             {orders.length === 0 && <p className='text-lg min-h-[50vh] flex items-center justify-center'>No orders yet</p>}
             {orders.length > 0 &&<div class="flex flex-col px-3 py-2">

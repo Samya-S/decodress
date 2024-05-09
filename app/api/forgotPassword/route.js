@@ -48,7 +48,7 @@ export async function POST(request) {
 
             const emailBody = `Hi ${user.name},
             <br><br>
-            It seems like you forgot your password for CodesWear.com. If this is true, click the link below to reset your password.<br>
+            It seems like you forgot your password for DECODRESS. If this is true, click the link below to reset your password.<br>
             Reset password: <a href="${process.env.HOSTING_DOMAIN}/forgotpassword?token=${token}">Click here</a>
             <br><br>
             If you did not forget your password, please disregard this email.
@@ -56,7 +56,7 @@ export async function POST(request) {
             If you feel like your password has been compromised, please change your password immediately by going to your My Account page.
             <br><br>
             Regards,<br>
-            The CodesWear Team`
+            The Decodress Team`
 
             const transporter = nodemailer.createTransport({
                 service: 'gmail',

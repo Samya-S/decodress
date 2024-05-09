@@ -64,8 +64,8 @@ const PincodeAvailability = (props) => {
     return (
         <div>
             <form onSubmit={checkLocationServiceability} className="pincode mt-6 flex space-x-2 text-sm">
-                <input onChange={(e) => { setPincode(e.target.value) }} type="text" placeholder="Enter your pincode" className="px-2 py-1 border border-pink-100 rounded-md focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-colors duration-200 ease-in-out" required />
-                <button className="text-white bg-pink-500 border-0 py-1 px-5 focus:outline-none hover:bg-pink-600 rounded">Check</button>
+                <input onChange={(e) => { setPincode(e.target.value) }} type="text" placeholder="Enter your pincode" className="px-2 py-1 border border-violet-100 rounded-md focus:border-violet-500 focus:ring-2 focus:ring-violet-200 outline-none transition-colors duration-200 ease-in-out" required />
+                <button className="text-white bg-violet-600 border-0 py-1 px-5 focus:outline-none hover:bg-violet-700 rounded">Check</button>
             </form>
             {/* {!serviceable && serviceable != null && <div className="text-red-700 text-sm mt-3">Sorry! We do not deliver to this pincode</div>}
             {serviceable && serviceable != null && <div className="text-green-700 text-sm mt-3">Yay! This pincode is serviceable</div>} */}

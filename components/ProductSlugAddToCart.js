@@ -25,7 +25,7 @@ const AddToCart = (props) => {
 
   return (
     <>
-      <button disabled={props.product.availableQty <= 0} className="flex text-white bg-pink-500 disabled:bg-pink-300 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded" onClick={handleAddToCart}>Add to cart</button>
+      <button disabled={props.product.availableQty <= 0} className="flex text-white bg-violet-600 disabled:bg-violet-300 border-0 py-2 px-6 focus:outline-none hover:bg-violet-700 rounded" onClick={handleAddToCart}>Add to cart</button>
       <ToastContainer
         position="bottom-center"
         autoClose={3000}

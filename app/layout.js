@@ -8,8 +8,8 @@ import ErrorBoundary from '@/components/ErrorBoundary'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'CodesWear',
-  description: 'CodesWear.com - Wear the code',
+  title: 'Decodress - Dress Decoded, Style Encoded',
+  description: 'Decodress - Dress Decoded, Style Encoded',
 }
 
 export default function RootLayout({ children }) {

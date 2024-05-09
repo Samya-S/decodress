@@ -15,7 +15,7 @@ const BuyNow = (props) => {
     }
 
     return (
-        <button onClick={() => { handleBuyNow() }} disabled={props.product.availableQty <= 0} className="flex text-white bg-pink-500 disabled:bg-pink-300 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded">Buy now</button>
+        <button onClick={() => { handleBuyNow() }} disabled={props.product.availableQty <= 0} className="flex text-white bg-violet-600 disabled:bg-violet-300 border-0 py-2 px-6 focus:outline-none hover:bg-violet-700 rounded">Buy now</button>
     )
 }
 
