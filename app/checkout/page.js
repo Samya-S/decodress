@@ -134,8 +134,8 @@ const CheckOut = () => {
 
     const orderResp = await resp.json()
 
-    console.log('on createOrder:');
-    console.log(orderResp);
+    // console.log('on createOrder:');
+    // console.log(orderResp);
 
     if (!orderResp.success) {
       toast.error(orderResp.error, {
@@ -181,8 +181,8 @@ const CheckOut = () => {
           razorpay_signature: response.razorpay_signature,
         };
 
-        console.log('on payment:');
-        console.log(data);
+        // console.log('on payment:');
+        // console.log(data);
 
         const resp = await fetch(`${hostingDomain}/api/verifyPayment`, {
           method: 'POST',
@@ -194,8 +194,8 @@ const CheckOut = () => {
         });
 
         const result = await resp.json();
-        console.log('on verifyOrder:');
-        console.log(result);
+        // console.log('on verifyOrder:');
+        // console.log(result);
 
         if (result.success) {
           dispatch(clearCart())
@@ -272,7 +272,7 @@ const CheckOut = () => {
     paymentObject.open();
 
     paymentObject.on("payment.failed", function (response) {
-      console.log(response.error);
+      // console.log(response.error);
       toast.error('Payment failed!', {
         position: "bottom-center",
         autoClose: 2000,
