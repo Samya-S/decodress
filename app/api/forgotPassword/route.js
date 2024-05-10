@@ -73,23 +73,21 @@ export async function POST(request) {
                 html: emailBody,
             };
 
-            // let infoRsp = {}
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    return Response.json({
-                        status: 500,
-                        success: false,
-                        error: error.message,
-                    });
-                }
-                // infoRsp = info.response;
+            let { status, success, message } = await new Promise((resolve, reject) => {
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        reject({ status: 500, success: false, message: error });
+                    } else {
+                        resolve({ status: 200, success: true, message: info.response });
+                    }
+                });
             });
 
             return Response.json({
-                status: 200,
-                success: true,
-                message: "Password reset link sent to your email.",
-                // infoRsp,
+                status: status,
+                success: success,
+                message: message,
+                // message: "Password reset link sent to your email.",
             });
         }
         else {
