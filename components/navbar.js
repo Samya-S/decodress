@@ -102,7 +102,7 @@ const Navbar = () => {
   }, [cart])
 
   return (
-    <div className='sticky top-0 z-50 bg-white flex flex-col md:flex-row justify-center md:justify-start items-center sm:px-5 py-2 mb-2 shadow-md'>
+    <navbar className='sticky top-0 z-50 bg-white flex flex-col md:flex-row justify-center md:justify-start items-center sm:px-5 py-2 mb-2 shadow-md'>
       {/* <TopLoadingBar /> */}
 
       <div className="logo mx-5 self-start">
@@ -169,7 +169,7 @@ const Navbar = () => {
         pauseOnHover
         theme="light"
       />
-    </div>
+    </navbar>
   )
 }
 
