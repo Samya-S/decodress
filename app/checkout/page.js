@@ -28,7 +28,7 @@ const CheckOut = () => {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          setDeliveryDetails({ ...deliveryDetails, name: data.user.name, email: data.user.email, phone: data.user.phone, address: data.user.address, pincode: data.user.pincode})
+          setDeliveryDetails({ ...deliveryDetails, name: data.user.name, email: data.user.email, phone: data.user.phone, address: data.user.address, pincode: data.user.pincode })
         }
       })
     // eslint-disable-next-line
@@ -37,6 +37,7 @@ const CheckOut = () => {
 
   /* delivery details */
   const [deliveryDetails, setDeliveryDetails] = useState({ name: '', email: '', phone: '', address: '', pincode: '', city: '', state: '' })
+  const [pincodeServiceable, setPincodeServiceable] = useState(null)
   const [payBtnDisabled, setPayBtnDisabled] = useState(true)
 
   const handleChange = (e) => {
@@ -61,11 +62,17 @@ const CheckOut = () => {
         .then(data => {
           if (Object.keys(data).includes(deliveryDetails.pincode)) {
             setDeliveryDetails({ ...deliveryDetails, city: data[deliveryDetails.pincode][0], state: data[deliveryDetails.pincode][1] })
+            setPincodeServiceable(true)
           }
+          else {
+            setDeliveryDetails({ ...deliveryDetails, city: '', state: '' })
+            setPincodeServiceable(false)
+          }          
         })
     }
     else {
       setDeliveryDetails({ ...deliveryDetails, city: '', state: '' })
+      setPincodeServiceable(null)
     }
   }
 
@@ -313,6 +320,8 @@ const CheckOut = () => {
         <div className="m-4 md:w-full">
           <label htmlFor="pincode" className="leading-7 text-sm text-gray-600">Pin Code</label>
           <input type="text" id="pincode" name="pincode" value={deliveryDetails.pincode} onChange={handleChange} className="w-full bg-white rounded border border-gray-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+          {!pincodeServiceable && pincodeServiceable != null && <div className="text-red-700 text-sm mt-3">Sorry! We do not deliver to this pincode</div>}
+          {pincodeServiceable && pincodeServiceable != null && <div className="text-green-700 text-sm mt-3">Yay! This pincode is serviceable</div>}
         </div>
         <div className="m-4 md:w-full">
           <label htmlFor="city" className="leading-7 text-sm text-gray-600">City</label>

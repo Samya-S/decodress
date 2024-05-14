@@ -4,6 +4,7 @@ import connectDB from '@/middleware/connectToDB';
 import Order from '@/models/Order';
 import jwt from 'jsonwebtoken';
 import Product from '@/models/Product';
+import pincodes from '@/data/pincodes.json'
 
 const key_id = process.env.RZPAY_KEY_ID
 const key_secret = process.env.RZPAY_KEY_SECRET
@@ -27,6 +28,21 @@ export async function POST(request) {
         await connectDB();
 
         const reqBody = await request.json();
+
+
+        // check if details provided are valid - [email, phone, pincode] - {email validation not done}
+        const { email, phone, pincode } = reqBody
+        if (phone.length !== 10 && !/^\d+$/.test(phone) /* only numbers check */) {
+            return Response.json({ status: 400, success: false, error: "Please provide a valid 10 digit phone number!" })
+        }
+        if (pincode.length !== 6 && !/^\d+$/.test(pincode) /* only numbers check */) {
+            return Response.json({ status: 400, success: false, error: "Please provide your 6 digit pincode!" })
+        }
+
+        // check if the pincode is serviceable
+        if (!Object.keys(pincodes).includes(pincode)) {
+            return Response.json({ status: 400, success: false, error: "We currently do not deliver to your location. Please try again!" })
+        }
 
 
         // check if cart is tampered or available quantity is less than the quantity in cart
@@ -63,15 +79,6 @@ export async function POST(request) {
             return Response.json({ status: 400, success: false, error: "Price of some items in your cart has been changed. Please try again!", cartIsTampered: true })
         }
 
-
-        // check if details provided are valid - [email, phone, pincode] - {email validation not done}
-        const { email, phone, pincode } = reqBody
-        if (phone.length !== 10 && !/^\d+$/.test(phone) /* only numbers check */) {
-            return Response.json({ status: 400, success: false, error: "Please provide a valid 10 digit phone number!" })
-        }
-        if (pincode.length !== 6 && !/^\d+$/.test(pincode) /* only numbers check */) {
-            return Response.json({ status: 400, success: false, error: "Please provide your 6 digit pincode!" })
-        }
 
         // create a razorpay payment order
         const { amount, currency } = reqBody;
