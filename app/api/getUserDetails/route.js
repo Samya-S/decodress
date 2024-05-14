@@ -23,6 +23,7 @@ export async function POST(request) {
                 phone: user.phone,
                 address: user.address,
                 pincode: user.pincode,
+                isAdmin: user.isAdmin,
                 // city: user.city,
                 // state: user.state,
             }

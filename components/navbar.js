@@ -21,6 +21,23 @@ const Navbar = () => {
     setToken(localStorage.getItem('token'))
   }, [])
 
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  useEffect(() => {
+    fetch(`/api/getUserDetails`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', },
+      body: JSON.stringify({ token: localStorage.getItem('token') }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success && data.user.isAdmin) {
+          setIsAdmin(data.user.isAdmin)
+        }
+      })
+    // eslint-disable-next-line
+  }, [])
+
   /* account dropdown */
   const [showAccountDropdown, setShowAccountDropdown] = useState(false)
   const accountDropdownRef = useRef()
@@ -124,6 +141,7 @@ const Navbar = () => {
           {showAccountDropdown && <div onMouseLeave={() => { setShowAccountDropdown(false) }} ref={accountDropdownRef} className='absolute top-12 right-0 w-40 bg-violet-100 py-2 px-4 rounded-md shadow-md font-semibold'>
             <Link href={'/account'}><p className='text-gray-800 hover:text-violet-800 py-2 px-4'>My Account</p></Link>
             <Link href={'/orders'}><p className='text-gray-800 hover:text-violet-800 py-2 px-4'>My Orders</p></Link>
+            {isAdmin && <Link href={'/admin'}><p className='text-gray-800 hover:text-violet-800 py-2 px-4'>Admin Dashboard</p></Link>}
             <p onClick={logOut} className='text-gray-800 hover:text-violet-800 py-2 px-4 cursor-pointer'>Logout</p>
           </div>}
         </div>
