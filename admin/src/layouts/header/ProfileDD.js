@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import FeatherIcon from "feather-icons-react";
 import Image from "next/image";
-import userimg from "@/admin/assets/images/users/user2.jpg";
+import userimg from "@/admin/assets/images/users/3.jpg";
 import {
   Box,
   Menu,
