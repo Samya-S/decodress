@@ -1,13 +1,13 @@
 {
-    "black": "bg-black",
-    "white": "bg-white",
-    "blue": "bg-blue-500",
-    "red": "bg-red-500",
-    "green": "bg-green-500",
-    "yellow": "bg-yellow-500",
-    "orange": "bg-orange-500",
-    "purple": "bg-purple-500",
-    "pink": "bg-pink-500",
-    "gray": "bg-gray-500",
-    "brown": "bg-yellow-950"
+    "black": "black",
+    "white": "white",
+    "blue": "#3B82F6",
+    "red": "#EF4444",
+    "green": "#10B981",
+    "yellow": "#FBBF24",
+    "orange": "#F97316",
+    "purple": "#8B5CF6",
+    "pink": "#EC4899",
+    "gray": "#6B7280",
+    "brown": "#573200"
 }

@@ -64,7 +64,7 @@ const Mugs = async () => {
                     <p className="mt-1">₹{mugs[item].price}</p>
                     <div className="mt-1">
                       {mugs[item].color.map((color) => (
-                        <span key={color} className={`inline-block border-2 border-gray-300 ${bgColorClasses[color.toLowerCase()]} rounded-full text-sm font-semibold w-6 h-6 mr-2`}></span>
+                        <span key={color} style={{backgroundColor: bgColorClasses[color.toLowerCase()]}} className={`inline-block border-2 border-gray-300 rounded-full text-sm font-semibold w-6 h-6 mr-2`}></span>
                       ))}
                     </div>
                   </div>
