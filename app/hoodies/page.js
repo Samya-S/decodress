@@ -1,4 +1,5 @@
 import Link from "next/link"
+import bgColorClasses from "@/data/bgColorClasses.json"
 
 async function getHoodies() {
   const domain = process.env.HOSTING_DOMAIN
@@ -64,18 +65,6 @@ async function getHoodies() {
 const Hoodies = async () => {
   const hoodies = await getHoodies()
 
-  // const bgColorClasses = {
-  //   black: 'bg-black',
-  //   white: 'bg-white',
-  //   blue: 'bg-blue-500',
-  //   red: 'bg-red-500',
-  //   green: 'bg-green-500',
-  //   yellow: 'bg-yellow-500',
-  //   orange: 'bg-orange-500',
-  //   purple: 'bg-purple-500',
-  //   pink: 'bg-pink-500',
-  // }
-
   return (
     <div>
       <section className="text-gray-600 body-font">
@@ -102,7 +91,7 @@ const Hoodies = async () => {
                     </div>
                     <div className="mt-1">
                       {hoodies[item].color.map((color) => (
-                        <span key={color} className={`inline-block border-2 border-gray-300 bg-${color.toLowerCase()}-500 rounded-full text-sm font-semibold w-6 h-6 mr-2`}></span>
+                        <span key={color} className={`inline-block border-2 border-gray-300 ${bgColorClasses[color.toLowerCase()]} rounded-full text-sm font-semibold w-6 h-6 mr-2`}></span>
                       ))}
                     </div>
                   </div>
