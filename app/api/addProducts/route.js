@@ -24,7 +24,8 @@ export async function POST(request) {
         }
 
         for (let i = 0; i < reqBody.length; i++) {
-            const slug = reqBody[i].title.toLowerCase().replace(/ /g, "-") + "-" + reqBody[i].category.toLowerCase().replace(/ /g, "-") + "-" + reqBody[i].color.toLowerCase().replace(/ /g, "-") + "-" + reqBody[i].size.toLowerCase().replace(/ /g, "-");
+            // const slug = reqBody[i].title.toLowerCase().replace(/ /g, "-") + "-" + reqBody[i].category.toLowerCase().replace(/ /g, "-") + "-" + reqBody[i].color.toLowerCase().replace(/ /g, "-") + "-" + reqBody[i].size.toLowerCase().replace(/ /g, "-");
+            const slug = reqBody[i].title.toLowerCase().replace(/ /g, "-") + (reqBody[i].color ? '-' : '') + reqBody[i].color.toLowerCase().replace(/ /g, "-") + (reqBody[i].size ? '-' : '') + reqBody[i].size.toLowerCase().replace(/ /g, "-");
 
             // if slug already exists, just increase the availableQty by the new availableQty and break the loop
             const existingProduct = await Product.findOneAndUpdate({ slug: slug }, { $inc: { availableQty: reqBody[i].availableQty } });
@@ -35,8 +36,7 @@ export async function POST(request) {
 
             const product = new Product({
                 title: reqBody[i].title,
-                // generate slug from title, color and size by making them lowercase and replacing spaces with hyphens
-                slug: slug,
+                slug: slug, // generate slug from title, color and size by making them lowercase and replacing spaces with hyphens
                 description: reqBody[i].description,
                 img: reqBody[i].img,
                 category: reqBody[i].category,

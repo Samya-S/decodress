@@ -64,7 +64,7 @@ const Orders = () => {
                                                     })}
                                                 </ul>
                                             </td>
-                                            <td class="whitespace-nowrap px-6 py-4 text-sm md:text-base">₹{order.amount}.00</td>
+                                            <td class="whitespace-nowrap px-6 py-4 text-sm md:text-base">₹{order.amount}</td>
                                             <td class="whitespace-nowrap px-6 py-4 text-sm md:text-base">{order.status}</td>
                                             <td class="whitespace-nowrap px-6 py-4 text-sm md:text-base"><Link href={'/order?id=' + order._id}>Check order</Link></td>
                                         </tr>

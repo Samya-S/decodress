@@ -100,7 +100,7 @@ const AllOrders = async (props) => {
                   </Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Typography variant="h6">₹{order.amount}.00</Typography>
+                  <Typography variant="h6">₹{order.amount}</Typography>
                 </TableCell>
                 <TableCell>
                   <Typography color="textSecondary" variant="h6">

@@ -40,7 +40,7 @@ const ProductSlug = async ({ params }) => {
 
   const productItem = (!error) && {
     itemCode: params.slug,
-    name: product[0].title,
+    name: product[0].title + " (" + product[0].size + (product[0].size ? "/" : "") + product[0].color + ")",
     price: product[0].price,
     size: product[0].size,
     color: product[0].color,
@@ -56,10 +56,10 @@ const ProductSlug = async ({ params }) => {
         <div className="container p-5 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
             {/* eslint-disable-next-line */}
-            <img alt="ecommerce" className="lg:w-1/2 w-full lg:h-auto h-auto px-14 object-cover object-center rounded" src={productItem.imgUrl} />
+            <img alt={productItem.name} className="lg:w-1/2 w-full lg:h-auto h-auto px-14 object-cover object-center rounded" src={productItem.imgUrl} />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">DECODRESS</h2>
-              <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{productItem.name} - {productItem.category} ({productItem.size}/{productItem.color})</h1>
+              <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{productItem.name}</h1>
               <div className="flex mb-4">
                 <span className="flex items-center">
                   <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-violet-500" viewBox="0 0 24 24">
@@ -100,7 +100,7 @@ const ProductSlug = async ({ params }) => {
               <p className="leading-relaxed">{productItem.description}</p>
               <ProductSlugColorSize variants={variants} productItem={productItem} />
               <div className="flex flex-wrap gap-2">
-                {productItem.availableQty > 0 && <span className="flex items-center title-font font-medium text-2xl text-gray-900">₹{productItem.price}.00</span>}
+                {productItem.availableQty > 0 && <span className="flex items-center title-font font-medium text-2xl text-gray-900">₹{productItem.price}</span>}
                 {productItem.availableQty <= 0 && <span className="flex items-center title-font font-medium text-2xl text-gray-900">Out of stock!</span>}
                 <div className="flex gap-4 ml-auto flex-wrap">
                   <AddToCart product={productItem} />

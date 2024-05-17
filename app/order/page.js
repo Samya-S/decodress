@@ -70,7 +70,7 @@ const Order = () => {
                         <tr key={index}>
                           <td class="border-t-2 text-left border-gray-200 px-4 py-3">{item.name} - {item.category.charAt(0).toUpperCase() + item.category.slice(1)} ({item.size}/{item.color})</td>
                           <td class="border-t-2 text-center border-gray-200 px-4 py-3">{item.quantity}</td>
-                          <td class="border-t-2 text-right border-gray-200 px-4 py-3">₹{(item.price) * (item.quantity)}.00</td>
+                          <td class="border-t-2 text-right border-gray-200 px-4 py-3">₹{(item.price) * (item.quantity)}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -78,7 +78,7 @@ const Order = () => {
                 </div>
 
                 <div className="flex items-center">
-                  <span className="title-font font-medium text-2xl text-gray-900">₹{orderDetails.amount}.00</span>
+                  <span className="title-font font-medium text-2xl text-gray-900">₹{orderDetails.amount}</span>
                   <button class="flex ml-auto text-white bg-violet-600 border-0 py-2 px-6 focus:outline-none hover:bg-violet-700 rounded">Track order</button>
                 </div>
               </div>

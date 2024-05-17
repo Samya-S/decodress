@@ -78,7 +78,7 @@ const Hoodies = async () => {
                 <Link href={'product/' + hoodies[item].slug}>
                   <p className="mt-5 block relative rounded overflow-hidden">
                     {/* eslint-disable-next-line */}
-                    <img alt="ecommerce" className="m-auto h-[30vh] md:h-[36vh] block" src={hoodies[item].img} />
+                    <img alt={hoodies[item].title} className="m-auto h-[30vh] md:h-[36vh] block" src={hoodies[item].img} />
                   </p>
                   <div className="mt-4 text-center md:text-left">
                     <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">Hoodies</h3>

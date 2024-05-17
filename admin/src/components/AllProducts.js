@@ -95,7 +95,7 @@ const AllProducts = async (props) => {
                   </Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Typography variant="h6">₹{product.price}.00</Typography>
+                  <Typography variant="h6">₹{product.price}</Typography>
                 </TableCell>
                 <TableCell align="right">
                   <Typography
