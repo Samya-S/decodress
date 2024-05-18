@@ -1,7 +1,7 @@
-import PincodeAvailability from "@/components/ProductSlugPincodeAvailability"
-import AddToCart from "@/components/ProductSlugAddToCart";
-import ProductSlugColorSize from "@/components/ProductSlugColorSize";
-import BuyNow from "@/components/ProductSlugBuyNow";
+import PincodeAvailability from "@/components/ProductSlug/ProductSlugPincodeAvailability"
+import AddToCart from "@/components/ProductSlug/ProductSlugAddToCart";
+import ProductSlugColorSize from "@/components/ProductSlug/ProductSlugColorSize";
+import BuyNow from "@/components/ProductSlug/ProductSlugBuyNow";
 import { notFound } from "next/navigation";
 
 async function getProduct(slug) {

@@ -81,6 +81,10 @@ const Footer = () => {
               </li>
             </nav>
           </div>
+          <div className="lg:w-1/4 md:w-1/2 w-full px-4 my-auto">
+            {/* eslint-disable-next-line */}
+            <img src="/pay.png" alt="" srcset="" />
+          </div>
         </div>
       </div>
       <div className="bg-violet-100">
