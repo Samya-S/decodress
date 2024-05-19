@@ -10,18 +10,18 @@ const TopLoadingBar = () => {
     useEffect(() => {
         setTimeout(() => {
             setProgress(50)
-        }, 300)
+        }, 100)
         setTimeout(() => {
             setProgress(100)
-        }, 500)
+        }, 300)
     }, [pathname])
 
     return (
         <LoadingBar
             color='#7F00FF'
             progress={progress}
-            waitingTime={800}
-            loaderSpeed={1000}
+            waitingTime={500}
+            loaderSpeed={300}
             onLoaderFinished={() => setProgress(0)}
         />
     )
