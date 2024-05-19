@@ -21,13 +21,13 @@ const ProductSlugColorSize = (props) => {
 
   return (
     <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
-      <div className="flex">
+      {color && <div className="flex">
         <span className="mr-3">Color</span>
         {Object.keys(variants).map((itemColor) => (
           (Object.keys(variants[itemColor]).includes(size)) // check if the color contains the selected size in variants
           && <button key={itemColor} onClick={() => { /* routeToVariant */ setColor(itemColor) }} style={{backgroundColor: bgColorClasses[itemColor.toLowerCase()]}} className={`border-2 ${itemColor === color ? 'border-black' : 'border-gray-300'} ml-1 rounded-full w-6 h-6 focus:outline-none`}></button>
         ))}
-      </div>
+      </div>}
       {size && <div className="flex ml-6 items-center">
         <span className="mr-3">Size</span>
         <div className="relative">

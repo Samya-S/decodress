@@ -106,11 +106,16 @@ const HomeLatestProducts = async () => {
                     <span key={size} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{size}</span>
                   ))}
                 </div>}
-                <div className="mt-1">
+                {latestProducts[item].color[0] == '' && <div className="mt-1">
+                  {latestProducts[item].color.map((color) => (
+                    <span key={color} style={{ backgroundColor: bgColorClasses[color.toLowerCase()] }} className={`inline-block border-2 border-white rounded-full text-sm font-semibold w-6 h-6 mr-2`}></span>
+                  ))}
+                </div>}
+                {latestProducts[item].color[0] != '' && <div className="mt-1">
                   {latestProducts[item].color.map((color) => (
                     <span key={color} style={{ backgroundColor: bgColorClasses[color.toLowerCase()] }} className={`inline-block border-2 border-gray-300 rounded-full text-sm font-semibold w-6 h-6 mr-2`}></span>
                   ))}
-                </div>
+                </div>}
               </div>
             </Link>
           </div>

@@ -40,7 +40,7 @@ const ProductSlug = async ({ params }) => {
 
   const productItem = (!error) && {
     itemCode: params.slug,
-    name: product[0].title + " (" + product[0].size + (product[0].size ? "/" : "") + product[0].color + ")",
+    name: product[0].title + (product[0].size || product[0].color ? (" (" + product[0].size + (product[0].size ? "/" : "") + product[0].color + ")") : ''),
     price: product[0].price,
     size: product[0].size,
     color: product[0].color,

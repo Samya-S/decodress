@@ -1,5 +1,4 @@
 import Link from "next/link"
-import bgColorClasses from "@/data/bgColorClasses.json"
 
 async function getStickers() {
   const domain = process.env.HOSTING_DOMAIN
@@ -61,12 +60,7 @@ const Stickers = async () => {
                   <div className="mt-4 text-center md:text-left">
                     <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">Stickers</h3>
                     <h2 className="text-gray-900 title-font text-lg font-medium">{stickers[item].title}</h2>
-                    <p className="mt-1">₹{stickers[item].price}</p>
-                    <div className="mt-1">
-                      {stickers[item].color.map((color) => (
-                        <span key={color} style={{backgroundColor: bgColorClasses[color.toLowerCase()]}} className={`inline-block border-2 border-gray-300 rounded-full text-sm font-semibold w-6 h-6 mr-2`}></span>
-                      ))}
-                    </div>
+                    <p className="mt-1">₹{stickers[item].price}</p>                    
                   </div>
                 </Link>
               </div>
