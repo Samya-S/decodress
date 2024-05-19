@@ -1,32 +1,27 @@
 "use client"
-import { useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import LoadingBar from 'react-top-loading-bar'
 
 const TopLoadingBar = () => {
-    const router = useRouter()
-    const [progress, setProgress] = useState(0)
+    const pathname = usePathname()
+    const [progress, setProgress] = useState(30)
 
     useEffect(() => {
-        console.log(router.events)
-        // if (router && router.events) { // Check if router is defined
-            router.events.on('routeChangeStart', () => {
-                // setProgress(30)
-            })
-            router.events.on('routeChangeComplete', () => {
-                // setProgress(100)
-            })
-            router.events.on('routeChangeError', () => {
-                // setProgress(100)
-            })
-        // }
-    }, [router])
+        setTimeout(() => {
+            setProgress(50)
+        }, 300)
+        setTimeout(() => {
+            setProgress(100)
+        }, 500)
+    }, [pathname])
 
     return (
         <LoadingBar
-            color='#f11946'
+            color='#7F00FF'
             progress={progress}
             waitingTime={800}
+            loaderSpeed={1000}
             onLoaderFinished={() => setProgress(0)}
         />
     )

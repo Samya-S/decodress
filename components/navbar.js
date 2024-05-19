@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { clearCart, decreaseQuantity, increaseQuantity } from '@/redux/features/cart';
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
-// import TopLoadingBar from './TopLoadingBar';
+import TopLoadingBar from './TopLoadingBar';
 
 const Navbar = () => {
   const router = useRouter()
@@ -120,7 +120,7 @@ const Navbar = () => {
 
   return (
     <navbar className='sticky top-0 z-50 bg-white flex flex-col md:flex-row justify-center md:justify-start items-center sm:px-5 py-2 mb-2 shadow-md'>
-      {/* <TopLoadingBar /> */}
+      <TopLoadingBar />
 
       <div className="logo mx-5 self-start">
         <Link href={'/'}><Image src="/decodress-logo-long.png" alt="" width={200} height={49} /></Link>
@@ -138,7 +138,7 @@ const Navbar = () => {
       <div className="icons flex gap-1 absolute right-0 sm:right-5 top-4 mx-5 items-center">
         <div>
           {token && <MdAccountCircle onMouseOver={() => { setShowAccountDropdown(true) }} className='text-2xl md:text-3xl cursor-pointer text-violet-700 hover:text-violet-900' />}
-          {showAccountDropdown && <div onMouseLeave={() => { setShowAccountDropdown(false) }} ref={accountDropdownRef} className='absolute top-12 right-0 w-40 bg-violet-100 py-2 px-4 rounded-md shadow-md font-semibold'>
+          {showAccountDropdown && <div onMouseLeave={() => { setShowAccountDropdown(false) }} ref={accountDropdownRef} className='absolute top-12 right-0 w-40 bg-violet-50 py-2 px-4 rounded-md shadow-lg font-semibold'>
             <Link href={'/account'}><p className='text-gray-800 hover:text-violet-800 py-2 px-4'>My Account</p></Link>
             <Link href={'/orders'}><p className='text-gray-800 hover:text-violet-800 py-2 px-4'>My Orders</p></Link>
             {isAdmin && <Link href={'/admin'} target='_blank'><p className='text-gray-800 hover:text-violet-800 py-2 px-4'>Admin Dashboard</p></Link>}
@@ -149,7 +149,7 @@ const Navbar = () => {
         <AiOutlineShoppingCart onClick={toggleCart} className='text-2xl md:text-3xl cursor-pointer text-violet-700 hover:text-violet-900' />
       </div>
 
-      <div ref={sideCartRef} className="sideCart overflow-y-scroll w-full sm:w-96 h-full z-30 fixed top-0 right-0 bg-violet-50 py-10 pr-8 pl-12 transform transition-transform translate-x-full" style={{ scrollbarWidth: 'none' }}>
+      <div ref={sideCartRef} className="sideCart overflow-y-scroll w-full sm:w-96 h-full z-30 fixed top-0 right-0 bg-violet-50 py-10 pr-8 pl-12 transform transition-transform translate-x-full shadow-2xl" style={{ scrollbarWidth: 'none' }}>
         <h2 className='font-bold text-xl text-center mt-2 mb-5'>Shopping cart</h2>
         <span onClick={toggleCart} className='absolute top-5 right-2 cursor-pointer text-2xl text-violet-600'><IoIosCloseCircle /></span>
         <ol className='list-decimal font-semibold'>
