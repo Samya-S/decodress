@@ -2,6 +2,8 @@
 
 Dress Decoded, Style Encoded - A full-stack E-commerce website built using `Next.js` and `MongoDB`.
 
+The application is deployed at: https://decodress.vercel.app
+
 ## Table of Contents
 
 - [Installation](#installation)
