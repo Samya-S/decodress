@@ -107,7 +107,7 @@ const Product = (props) => {
                 </TableCell>
                 <TableCell>
                     <Typography color="textSecondary" variant="h6">
-                        {(newProduct.size) ? newProduct.size : '–'}/{newProduct.color.charAt(0).toUpperCase() + newProduct.color.slice(1)}
+                        {(newProduct.size) ? newProduct.size : '–'}/{(newProduct.color) ? newProduct.color.charAt(0).toUpperCase() + newProduct.color.slice(1) : '–'}
                     </Typography>
                 </TableCell>
                 <TableCell align="right">
