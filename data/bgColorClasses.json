@@ -1,13 +1,18 @@
 {
     "black": "black",
     "white": "white",
+    "navyblue": "#1E3A8A",
     "blue": "#3B82F6",
+    "skyblue": "#02CCFE",
     "red": "#EF4444",
+    "maroon": "#7F1D1D",
     "green": "#10B981",
     "yellow": "#FBBF24",
     "orange": "#F97316",
     "purple": "#8B5CF6",
-    "pink": "#EC4899",
+    "pink": "#FFC0EA",
+    "lavender": "#C084FC",
+    "burgundy": "#800060",
     "gray": "#6B7280",
     "brown": "#573200"
 }

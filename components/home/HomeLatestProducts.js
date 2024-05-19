@@ -10,11 +10,30 @@ async function getProducts() {
   const allProducts = await data.body.data
 
   // filter latest 6 products by updatedAt of which there will be 2 tshirts, 2 hoodies, 1 mug and 1 sticker
-  const tshirts = await data.body.data.filter(product => product.category === "tshirt").sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).slice(0, 2);
-  const hoodies = await data.body.data.filter(product => product.category === "hoodie").sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).slice(0, 2);
+  // the 2 tshirts and the 2 hoodies will have different titles respectively
+  const tshirtTitles = new Set();
+  const hoodieTitles = new Set();
+
+  const tshirts = await data.body.data.filter(product => {
+    if (product.category === "tshirt" && !tshirtTitles.has(product.title)) {
+      tshirtTitles.add(product.title);
+      return true;
+    }
+    return false;
+  }).sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).slice(0, 2);
+
+  const hoodies = await data.body.data.filter(product => {
+    if (product.category === "hoodie" && !hoodieTitles.has(product.title)) {
+      hoodieTitles.add(product.title);
+      return true;
+    }
+    return false;
+  }).sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).slice(0, 2);
+
   const mugs = await data.body.data.filter(product => product.category === "mug").sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).slice(0, 1);
   const stickers = await data.body.data.filter(product => product.category === "sticker").sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).slice(0, 1);
 
+  // combine all the 6 products into one array
   const products = [...tshirts, ...hoodies, ...mugs, ...stickers]
 
   // get all products from allProducts that have same title with the products array
